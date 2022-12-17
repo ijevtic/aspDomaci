@@ -1,7 +1,7 @@
 import subprocess
 
 def run_container(name):
-    cmd = ['docker', 'run', '--name', name, '-it', 'test', '/bin/bash']
+    cmd = ['docker', 'run', '--name', name, '-it', '-v', '/home/ijevtic/projects/aspDomaci/docker_output:/opt/app/output',  'test', '/bin/bash']
     subprocess.run( cmd, stdout=subprocess.PIPE )
 
 def stop_container(name):
