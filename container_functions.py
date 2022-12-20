@@ -1,10 +1,10 @@
 import subprocess
-import os
 from dotenv import load_dotenv
 
-def run_container(name):
+def run_container(cont_name, image_name):
     load_dotenv()
-    cmd = ['docker', 'run', '--name', name, '-it', '-v', os.getenv("ROOT_PATH") + 'docker_output:/opt/app/output',  'test', '/bin/bash']
+    cmd = ['docker', 'run', '--name', cont_name, '-it', '-v', '/home/ijevtic/Documents/projects/aspDomaci/docker_output:/opt/app/output',
+    "--network", "none", image_name, '/bin/bash']
     subprocess.run( cmd, stdout=subprocess.PIPE )
 
 def stop_container(name):
