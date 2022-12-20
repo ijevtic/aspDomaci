@@ -2,7 +2,9 @@ import time
 from container_functions import run_container, stop_container, delete_container
 from multiprocessing import Process
 
-if __name__ == '__main__':
+def start_container_cycle(ready):
+    if not ready:
+        return
     p1 = Process(target=run_container, args=('test_container','test'))
     p1.start()
     p1.join()
