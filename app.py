@@ -8,6 +8,8 @@ if __name__ == '__main__':
     print('run')
     time.sleep(15)
     stop_container('test_container')
+    print('stop')
     time.sleep(10)
     delete_container('test_container')
+    print('delete')
     p1.join()
