@@ -3,6 +3,7 @@ from flask import request
 from model.users import get_user
 from container_manager import start_container_cycle
 from generate_code import generate_code
+from model.security import check_token
 
 class TASKS(Resource):
 
@@ -10,6 +11,9 @@ class TASKS(Resource):
     self.db = db
 
   def get(self):
+    if not check_token(request.headers.get('Authorization')):
+      return {"message": "Auth failed"}, 400
+    
     user_email = request.args.get('email').lower()
     if (get_user(user_email,self.db) is None):
       return {"message": "User doesn't exist!"}, 400
@@ -17,6 +21,9 @@ class TASKS(Resource):
     return get_tasks(user_email, self.db)
 
   def post(self):
+    if not check_token(request.headers.get('Authorization')):
+      return {"message": "Auth failed"}, 400
+    
     parser = reqparse.RequestParser()
     parser.add_argument('email', type=str)
     parser.add_argument('task_id', type=str)
