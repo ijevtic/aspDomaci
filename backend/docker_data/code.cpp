@@ -1,13 +1,29 @@
-#include <pybind11/pybind11.h>
+#include <bits/stdc++.h>
+#define ll long long
+using namespace std;
+int main()
+{
+	ios::sync_with_stdio(false);
+	cin.tie(0);
 
-namespace py = pybind11;
+	int n;
+	cin>>n;
+	int l = 0;
+	int r = n;
+	//cout<<"! 123"<<endl;
+	while(l<r)
+    {
+        int mid = (l+r)/2;
+        cout<<"? "<<mid<<endl;
+        int t;
+        cin>>t;
+        if(t==1)
+            r = mid;
+        else
+            l = mid+1;
+    }
+    cout<<"! "<<l<<endl;
 
 
-int add(int i, int j) {
-    return i + j;
-}
-
-PYBIND11_MODULE(code, m) {
-    m.doc() = "pybind11 code plugin"; // optional module docstring
-    m.def("add", &add, "A function that adds two numbers");
+	return 0;
 }

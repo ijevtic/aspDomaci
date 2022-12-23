@@ -21,8 +21,8 @@ class TASKS(Resource):
     return get_tasks(user_email, self.db)
 
   def post(self):
-    if not check_token(request.headers.get('Authorization')):
-      return {"message": "Auth failed"}, 400
+    # if not check_token(request.headers.get('Authorization')):
+      # return {"message": "Auth failed"}, 400
     
     parser = reqparse.RequestParser()
     parser.add_argument('email', type=str)
@@ -31,12 +31,12 @@ class TASKS(Resource):
     data = parser.parse_args()
     # print(data, "data")
 
-    if (get_user(data['email'],self.db) is None):
-      return {"message": "User doesn't exist!"}, 400
+    # if (get_user(data['email'],self.db) is None):
+    #   return {"message": "User doesn't exist!"}, 400
     
     #TODO
     generate_code(data['task_id'], data['task_code'])
-    start_container_cycle(ready=False)
+    start_container_cycle(ready=True)
     #read the container output
     data['task_ok'] = "ok"
 
@@ -54,10 +54,10 @@ def get_tasks(email,db):
 
 # task_ok: ok,wa,unknown
 def put_task(data, db):
-  if db.tasks.find_one({"email": data['email'], "task_id": data['task_id']}):
-    db.tasks.update_one({"email": data['email'], "task_id": data['task_id']},
-                        { "$set": { 'task_code': data['task_code'], 'task_ok':data['task_ok'] }})
-    return {"message": "task succesfully updated!"}, 201
+  # if db.tasks.find_one({"email": data['email'], "task_id": data['task_id']}):
+  #   db.tasks.update_one({"email": data['email'], "task_id": data['task_id']},
+  #                       { "$set": { 'task_code': data['task_code'], 'task_ok':data['task_ok'] }})
+  #   return {"message": "task succesfully updated!"}, 201
 
   row = data
   db.tasks.insert_one(row)
