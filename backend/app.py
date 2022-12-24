@@ -8,6 +8,7 @@ from apscheduler.schedulers.background import BackgroundScheduler
 from model.users import USERS
 from model.tasks import TASKS
 
+
 load_dotenv()
 
 app = Flask(__name__)

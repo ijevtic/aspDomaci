@@ -3,13 +3,18 @@
 
 using namespace std;
 
-int main()
+int main(int argc, char **argv)
 {
 	ios::sync_with_stdio(false);
 	cin.tie(0);
 
+
+    char s[50] = "output/output";
+    char s2[10] = ".txt";
+    strcat(s,argv[1]);
+    strcat(s,s2);
     ofstream outfile;
-    outfile.open("output/output.txt");
+    outfile.open(s);
 
     int n = 100;//rand()%1000;
     int x = rand()%n+1;

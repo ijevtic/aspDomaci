@@ -131,3 +131,4 @@ dmypy.json
 
 requests.http
 docker_output
+task_data*
