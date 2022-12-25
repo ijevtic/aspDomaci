@@ -18,6 +18,8 @@ int main(int argc, char **argv)
     int x = rand()%n+1;
     int sol = 10;
 
+    int tmp;
+    cases>>tmp;
     for(int i=0;i<=caseNum;i++)
         cases>>n>>x>>sol;
 

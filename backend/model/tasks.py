@@ -3,8 +3,10 @@ from flask import request
 from model.users import get_user
 from container_manager import start_container_cycle
 from generate_code import generate_code
+from grade import grade
 from model.security import check_token
 from random import randint
+import os
 
 class TASKS(Resource):
 
@@ -36,12 +38,13 @@ class TASKS(Resource):
     #   return {"message": "User doesn't exist!"}, 400
     
     id = randint(1,10000000)
+    data['id'] = id
     generate_code(id, data['task_code'])
     start_container_cycle(id)
-    #read the container output
-    data['task_ok'] = "ok"
+    data = grade(data, id)
 
-    return put_task(data,self.db)
+    put_task(data,self.db)
+    return {'id':id,'status':data['status'],'passed':data['passed'],'test_cases_num':data['test_cases_num'],'error':data['error']}, 200
 
 
 def get_tasks(email,db):
@@ -60,7 +63,5 @@ def put_task(data, db):
   #                       { "$set": { 'task_code': data['task_code'], 'task_ok':data['task_ok'] }})
   #   return {"message": "task succesfully updated!"}, 201
 
-  print(db)
   row = data
   db.tasks.insert_one(row)
-  return {"message": "task succesfully added!"}, 201
