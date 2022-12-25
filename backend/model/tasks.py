@@ -3,7 +3,8 @@ from flask import request
 from model.users import get_user
 from container_manager import start_container_cycle
 from generate_code import generate_code
-from model.security import check_token
+from model.security import auth_check
+from constants import AUTH_FAILED_CODE
 
 class TASKS(Resource):
 
@@ -11,25 +12,28 @@ class TASKS(Resource):
     self.db = db
 
   def get(self):
-    if not check_token(request.headers.get('Authorization')):
-      return {"message": "Auth failed"}, 400
+    user_email = request.args.get('email')
+    if user_email is None:
+      return {"message": "wrong email!"}, 403
     
-    user_email = request.args.get('email').lower()
+    if not auth_check(user_email, request.headers.get('Authorization')):
+      return {"message": "Auth failed"}, AUTH_FAILED_CODE
+    
+    
     if (get_user(user_email,self.db) is None):
-      return {"message": "User doesn't exist!"}, 400
+      return {"message": "User doesn't exist!"}, 402
     
     return get_tasks(user_email, self.db)
 
   def post(self):
-    if not check_token(request.headers.get('Authorization')):
-      return {"message": "Auth failed"}, 400
-    
     parser = reqparse.RequestParser()
-    parser.add_argument('email', type=str)
-    parser.add_argument('task_id', type=str)
-    parser.add_argument('task_code', type=str)
+    parser.add_argument('email', type=str, required=True, help="Email is empty!")
+    parser.add_argument('task_id', type=str, required=True, help="Task id is empty!")
+    parser.add_argument('task_code', type=str, required=True, help="Task code is empty!")
     data = parser.parse_args()
-    # print(data, "data")
+    
+    if not auth_check(data['email'], request.headers.get('Authorization')):
+      return {"message": "Auth failed"}, AUTH_FAILED_CODE
 
     if (get_user(data['email'],self.db) is None):
       return {"message": "User doesn't exist!"}, 400

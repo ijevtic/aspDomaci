@@ -1,38 +1,35 @@
 import React, { useState, useEffect } from 'react';
 import { GoogleLogin, GoogleLogout } from 'react-google-login';
 import { gapi } from 'gapi-script';
-import { loggedIn } from "../recoil/atom/loggedAtom";
+import { profileInfo } from "../recoil/atom/loggedAtom";
 import { useRecoilState } from 'recoil';
 import { useNavigate } from 'react-router-dom';
 
 function Login(props) {
-  const [profile, setProfile] = useState([]);
-  const clientId = process.env.REACT_APP_GOOGLE_AUTH_CLIENT_ID;
-  const [loggedInState, setLoggedInState] = useRecoilState(loggedIn);
+  const [profile, setProfile] = useRecoilState(profileInfo);
   const navigate = useNavigate();
+  console.log("client id", process.env.REACT_APP_GOOGLE_AUTH_CLIENT_ID);
 
   useEffect(() => {
     const initClient = () => {
-      gapi.client.init({
-        clientId: clientId,
-        scope: ''
+      gapi.auth2.init({
+        clientId: process.env.REACT_APP_GOOGLE_AUTH_CLIENT_ID,
+        scope: process.env.REACT_APP_SCOPES,
+        accessType: 'offline',
+        prompt: 'consent'
       });
     };
     gapi.load('client:auth2', initClient);
   });
 
   const onSuccess = (res) => {
-    setLoggedInState('true');
+    console.log(res)
+    setProfile(profile => profile = {'loggedIn':res.tokenId, 'profile': res.profileObj});
     navigate('/');
-    // setProfile(res.profileObj);
   };
 
   const onFailure = (err) => {
     console.log('failed', err);
-  };
-
-  const logOut = () => {
-    setProfile(null);
   };
 
   return (
@@ -41,7 +38,7 @@ function Login(props) {
       <br />
       <br />
       <GoogleLogin
-        clientId={clientId}
+        clientId={process.env.REACT_APP_GOOGLE_AUTH_CLIENT_ID}
         buttonText="Sign in with Google"
         onSuccess={onSuccess}
         onFailure={onFailure}

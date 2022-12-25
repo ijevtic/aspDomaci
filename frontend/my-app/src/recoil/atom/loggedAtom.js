@@ -1,6 +1,9 @@
 import { atom } from "recoil";
 
-export const loggedIn = atom({
-  key: "loggedInState",
-  default: 'false',
+export const profileInfo = atom({
+  key: "profileState",
+  default: {
+    'loggedIn':'false',
+    'profile': null
+  }
 });

@@ -1,6 +1,7 @@
 from flask_restful import reqparse, Resource
 from flask import request
-from model.security import check_token
+from model.security import auth_check
+from constants import AUTH_FAILED_CODE
 
 class USERS(Resource):
 
@@ -8,19 +9,17 @@ class USERS(Resource):
     self.db = db
 
   def get(self):
-
-    # wallet_number = request.args.get('wallet_number').lower()
     return {"message": "get request"}, 200
 
   def post(self):
-    if not check_token(request.headers.get('Authorization')):
-      return {"message": "Auth failed"}, 400
-    
     parser = reqparse.RequestParser()
     parser.add_argument('email', type=str, required=True, help="Email is empty!")
     parser.add_argument('first_name', type=str, required=True, help="First name is empty!")
     parser.add_argument('last_name', type=str, required=True, help="Last name is empty!")
     data = parser.parse_args()
+
+    if not auth_check(data['email'], request.headers.get('Authorization')):
+      return {"message": "Auth failed"}, AUTH_FAILED_CODE
 
     if (get_user(data['email'],self.db) is not None):
       return {"message": "User already exists!"}, 400
