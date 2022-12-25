@@ -5,6 +5,7 @@ from container_manager import start_container_cycle
 from generate_code import generate_code
 from model.security import auth_check
 from constants import AUTH_FAILED_CODE
+from model.parsers import create_task_parser
 
 class TASKS(Resource):
 
@@ -26,11 +27,7 @@ class TASKS(Resource):
     return get_tasks(user_email, self.db)
 
   def post(self):
-    parser = reqparse.RequestParser()
-    parser.add_argument('email', type=str, required=True, help="Email is empty!")
-    parser.add_argument('task_id', type=str, required=True, help="Task id is empty!")
-    parser.add_argument('task_code', type=str, required=True, help="Task code is empty!")
-    data = parser.parse_args()
+    data = create_task_parser.parse_args()
     
     if not auth_check(data['email'], request.headers.get('Authorization')):
       return {"message": "Auth failed"}, AUTH_FAILED_CODE

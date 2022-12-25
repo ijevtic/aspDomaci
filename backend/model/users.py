@@ -2,6 +2,7 @@ from flask_restful import reqparse, Resource
 from flask import request
 from model.security import auth_check
 from constants import AUTH_FAILED_CODE
+from model.parsers import create_user_parser
 
 class USERS(Resource):
 
@@ -9,14 +10,11 @@ class USERS(Resource):
     self.db = db
 
   def get(self):
-    return {"message": "get request"}, 200
+    # data = proba.parse_args()
+    return {"email": "lol"}, 200
 
   def post(self):
-    parser = reqparse.RequestParser()
-    parser.add_argument('email', type=str, required=True, help="Email is empty!")
-    parser.add_argument('first_name', type=str, required=True, help="First name is empty!")
-    parser.add_argument('last_name', type=str, required=True, help="Last name is empty!")
-    data = parser.parse_args()
+    data = create_user_parser.parse_args()
 
     if not auth_check(data['email'], request.headers.get('Authorization')):
       return {"message": "Auth failed"}, AUTH_FAILED_CODE
