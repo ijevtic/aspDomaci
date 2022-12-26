@@ -82,9 +82,9 @@ function Home(props) {
     <div className="home">
       <h1>Home</h1>
       <h2>data</h2>
-      {tasks == null ? <div>nema taskova</div>:<div>{JSON.stringify(tasks)}</div>}
+      {/* {tasks == null ? <div>nema taskova</div>:<div>{JSON.stringify(tasks)}</div>} */}
       <Logout key = "logout"/>
-      <Tasks sendCode={sendCode}/>  
+      <Tasks sendCode={sendCode} tasks={tasks}/>
     </div>
     
 

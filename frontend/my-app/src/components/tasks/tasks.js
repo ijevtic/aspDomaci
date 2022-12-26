@@ -3,6 +3,8 @@ import { task2 } from "./task2";
 import { task3 } from "./task3";
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import React, { useState } from 'react';
+import BasicTable from "../table";
+
 
 function Tasks(props) {
   const tasksHTML = [task1, task2, task3];
@@ -35,11 +37,19 @@ function Tasks(props) {
                     <Tab key="sendCode">Posalji kod</Tab>
                   </TabList>
 
-                  {task.subtasks.map(subtask => { return <TabPanel key={subtask.title + "1"}><Tabs forceRenderTabPanel key={subtask.title + "0"}>{subtask.body}</Tabs></TabPanel> })}
+                  {task.subtasks.map(subtask => {
+                    return (
+                      <TabPanel key={subtask.title + "1"}>
+                        <Tabs forceRenderTabPanel key={subtask.title + "0"}>
+                          {props.tasks == null ? <></> : <BasicTable data = {props.tasks['task1'][subtask.key]}/>} 
+                        {/* {JSON.stringify(props.tasks)} */}
+                        </Tabs>
+                      </TabPanel>)
+                  })}
 
                   <TabPanel>
-                  <select value={subtaskSelected} onChange={handleChange}>
-                      {task.subtasks.map(subtask => {return <option key={subtask.key} value={subtask.key}>{subtask.title}</option>})}
+                    <select value={subtaskSelected} onChange={handleChange}>
+                      {task.subtasks.map(subtask => { return <option key={subtask.key} value={subtask.key}>{subtask.title}</option> })}
                     </select>
                     <textarea cols="100" rows="5" value={code} onChange={evt => updateInputValue(evt)} />
                     <button onClick={() => props.sendCode(code, subtaskSelected)}>Send</button>
