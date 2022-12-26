@@ -16,6 +16,7 @@ def check_token(token):
   load_dotenv()
   try:
       idinfo = id_token.verify_oauth2_token(token, requests.Request(), os.getenv('GOOGLE_AUTH_CLIENT_ID'))
+      print(idinfo)
       return idinfo['email']
   except ValueError:
       return None

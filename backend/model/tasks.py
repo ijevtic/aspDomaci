@@ -4,8 +4,12 @@ from model.users import get_user
 from container_manager import start_container_cycle
 from generate_code import generate_code
 from model.security import auth_check
-from constants import AUTH_FAILED_CODE
+from constants import AUTH_FAILED_CODE, SUBMISSION_TIMEOUT
 from model.parsers import create_task_parser
+import time
+
+def time_now():
+  return int(time.time())
 
 class TASKS(Resource):
 
@@ -15,14 +19,19 @@ class TASKS(Resource):
   def get(self):
     user_email = request.args.get('email')
     if user_email is None:
-      return {"message": "wrong email!"}, 403
+      return {"message": "wrong email!",
+              "auth": None,
+              "user": None}, 403
     
     if not auth_check(user_email, request.headers.get('Authorization')):
-      return {"message": "Auth failed"}, AUTH_FAILED_CODE
-    
+      return {"message": "Auth failed",
+              "auth": None,
+              "user": None}, AUTH_FAILED_CODE
     
     if (get_user(user_email,self.db) is None):
-      return {"message": "User doesn't exist!"}, 402
+      return {"message": "User doesn't exist!",
+              "auth": True,
+              "user": None}, 401
     
     return get_tasks(user_email, self.db)
 
@@ -30,36 +39,66 @@ class TASKS(Resource):
     data = create_task_parser.parse_args()
     
     if not auth_check(data['email'], request.headers.get('Authorization')):
-      return {"message": "Auth failed"}, AUTH_FAILED_CODE
-
-    if (get_user(data['email'],self.db) is None):
-      return {"message": "User doesn't exist!"}, 400
+      return {"message": "Auth failed",
+              "auth": None}, AUTH_FAILED_CODE
+    
+    user = get_user(data['email'],self.db)
+    if (user is None):
+      return {"message": "User doesn't exist!",
+              "auth": True,
+              "user": None}, 401
+    
+    if(user['time'] + SUBMISSION_TIMEOUT > time_now()):
+      return {"message": "Timeout has not passed!",
+              "auth": True,
+              "user": None}, 401
     
     #TODO
-    generate_code(data['task_id'], data['task_code'])
-    start_container_cycle(ready=False)
-    #read the container output
-    data['task_ok'] = "ok"
+    # generate_code(data['task_id'], data['task_code'])
+    # start_container_cycle(ready=False)
+    # #read the container output
+    # data['task_ok'] = "ok"
+
+    data = mock_task(data['email'], data['task_id'], data['task_code'])
 
     return put_task(data,self.db)
 
 
 def get_tasks(email,db):
-  row = {"task1":None, "task2":None, "task3":None}
+  row = {"task1":[], "task2":[], "task3":[]}
   if db.tasks:
     task_cursor = db.tasks.find({"email":email})
     for task in task_cursor:
-      row[task["task_id"]] = {'task_code':task['task_code'], 'task_ok':task['task_ok']}
-  print(row)
-  return row, 200
+      row[task["task_id"]].append(copy_task(task))
+  return {"tasks":row,
+          "auth":True,
+          "user":True}, 200
 
-# task_ok: ok,wa,unknown
+#data je vec popunjen task(bez vremena)
 def put_task(data, db):
-  if db.tasks.find_one({"email": data['email'], "task_id": data['task_id']}):
-    db.tasks.update_one({"email": data['email'], "task_id": data['task_id']},
-                        { "$set": { 'task_code': data['task_code'], 'task_ok':data['task_ok'] }})
-    return {"message": "task succesfully updated!"}, 201
+  current_time = time_now()
+  data['time'] = current_time
+  db.tasks.insert_one(data)
+  print(data['email'], current_time)
+  db.users.update_one({"email": data['email']}, { "$set": { 'time': current_time }})
+  return {"message": "task succesfully submitted!"}, 201
 
-  row = data
-  db.tasks.insert_one(row)
-  return {"message": "task succesfully added!"}, 201
+
+def copy_task(object):
+  arguments = ['task_code', 'id', 'test_cases_num', 'passed', 'error', 'status', 'time']
+  ret = dict()
+  for arg in arguments:
+    ret[arg] = object[arg]
+  return ret
+
+def mock_task(email, task_id, task_code):
+  return {
+    "email": email,
+    "task_id": task_id,
+    "task_code": task_code,
+    "id": 1,
+    "test_cases_num": 4,
+    "passed": 3,
+    "error": "no error",
+    "status": "OK",
+  }

@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import useFetch from '../hooks/useFetch';
 import { useNavigate } from 'react-router-dom';
 import { profileInfo } from "../recoil/atom/loggedAtom";
 import { useRecoilState } from 'recoil';
@@ -32,6 +31,24 @@ function Home(props) {
       navigate('/login');
       return;
     }
+
+    const createUser = async (url, token) => {
+      let data = await fetch(url, {
+        'method': 'POST',
+        // 'mode': 'no-cors',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': token,
+        },
+      }).then(res => res.json()).catch(error => console.error('Error:', error));
+      if(data['auth'] === null || data['user'] == null) {
+        navigate('/login');
+        return;
+      }
+      setTasks(data.tasks);
+      console.log(data.tasks);
+    }
+
     const fetchTasks = async (url, argument=null, parameters=null, token=null) => {
       console.log(token)
       if(argument != null) {
@@ -49,18 +66,19 @@ function Home(props) {
           'Content-Type': 'application/json',
           'Authorization': token,
         },
-      }).then(res => {
-        if(res.status == 403)
-          return null;
-        return res.json();
-      }).catch(error => console.error('Error:', error));
+      }).then(res => res.json()).catch(error => console.error('Error:', error));
       
-      if(data == null) {
+      if(data['auth'] === null) {
         navigate('/login');
         return;
       }
-      await setTasksCheck(data);
-      console.log(data)
+      if(data['user'] === null) {
+        createUser(process.env.REACT_APP_SERVER_URL + '/users', profile.loggedIn);
+        return;
+      }
+
+      await setTasksCheck(data['tasks']);
+      console.log(data['tasks'])
     }
     fetchTasks(process.env.REACT_APP_SERVER_URL, 'tasks', [{'name':'email', 'value': profile.profile.email}], profile.loggedIn)
   }, []);

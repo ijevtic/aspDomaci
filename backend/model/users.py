@@ -1,8 +1,7 @@
 from flask_restful import reqparse, Resource
 from flask import request
-from model.security import auth_check
+from model.security import auth_check, check_token
 from constants import AUTH_FAILED_CODE
-from model.parsers import create_user_parser
 
 class USERS(Resource):
 
@@ -14,16 +13,18 @@ class USERS(Resource):
     return {"email": "lol"}, 200
 
   def post(self):
-    data = create_user_parser.parse_args()
+    email = check_token(request.headers.get('Authorization'))
+    if email is None:
+      return {"message": "Auth failed",
+              "auth": None,
+              "user": None}, AUTH_FAILED_CODE
 
-    if not auth_check(data['email'], request.headers.get('Authorization')):
-      return {"message": "Auth failed"}, AUTH_FAILED_CODE
-
-    if (get_user(data['email'],self.db) is not None):
-      return {"message": "User already exists!"}, 400
+    if (get_user(email,self.db) is not None):
+      return {"message": "User already exists!",
+              "auth": True,
+              "user": None}, 400
     
-    return {"message": "ok"},200
-    # return put_user(data,self.db)
+    return put_user(email,self.db)
 
 
 def get_user(email,db):
@@ -32,10 +33,16 @@ def get_user(email,db):
   user = db.users.find_one({"email":email})
   return user
 
-def put_user(data,db):
+def put_user(email,db):
   row = dict()
-  row["email"] = data["email"]
-  row["first_name"] = data["first_name"]
-  row["last_name"] = data["last_name"]
+  row["email"] = email
+  row["time"] = 0
   db.users.insert_one(row)
-  return {"message": "User succesfully created!"}, 201
+  return {"message": "User succesfully created!",
+          "auth": True,
+          "user": True,
+          "tasks": {
+            "task1" : [],
+            "task2" : [],
+            "task3" : []
+          }}, 201
