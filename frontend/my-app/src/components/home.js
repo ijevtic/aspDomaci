@@ -4,11 +4,12 @@ import { profileInfo } from "../recoil/atom/loggedAtom";
 import { useRecoilState } from 'recoil';
 import Logout from './logout';
 import { postTask, fetchTasks, createUser } from './apiCommunication';
+import 'react-tabs/style/react-tabs.css';
+import { Tasks } from './tasks/tasks';
 
 function Home(props) {
   const [tasks, setTasks] = useState(null);
   const [profile, setProfile] = useRecoilState(profileInfo);
-  const [code, setCode] = useState("");
   let sent = false;
 
   const navigate = useNavigate();
@@ -68,25 +69,21 @@ function Home(props) {
     }))
   }
 
-  const sendCode = () => {
-    postTask(profile.loggedIn, profile.profile.email, "task1", code)
-    .then(res => updateTasks(res))
-  }
-
-  const updateInputValue = (evt) => {
-    const val = evt.target.value;
-    setCode(val);
+  const sendCode = (code, taskId) => {
+    console.log(code, taskId)
+    // postTask(profile.loggedIn, profile.profile.email, "task1", code)
+    // .then(res => updateTasks(res))
   }
 
   return (
     <div className="home">
       <h1>Home</h1>
       <h2>data</h2>
-      <textarea cols="100" rows="5"value={code} onChange={evt => updateInputValue(evt)} />
       {tasks == null ? <div>nema taskova</div>:<div>{JSON.stringify(tasks)}</div>}
-      <button onClick={sendCode}>Send</button>
-      <Logout />
+      <Logout key = "logout"/>
+      <Tasks sendCode={sendCode}/>  
     </div>
+    
 
   )
 }
