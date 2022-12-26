@@ -86,8 +86,6 @@ function Home(props) {
       <Logout key = "logout"/>
       <Tasks sendCode={sendCode} tasks={tasks}/>
     </div>
-    
-
   )
 }
 
