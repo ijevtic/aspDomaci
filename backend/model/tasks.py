@@ -69,8 +69,8 @@ class TASKS(Resource):
     start_container_cycle(id)
     data = grade(data, id)
 
-    put_task(data,self.db)
-    return {'id':id,'status':data['status'],'passed':data['passed'],'test_cases_num':data['test_cases_num'],'error':data['error']}, 200
+    return put_task(data,self.db)
+    # return {'id':id,'status':data['status'],'passed':data['passed'],'test_cases_num':data['test_cases_num'],'error':data['error']}, 200
 
 
 def get_tasks(email,db):
