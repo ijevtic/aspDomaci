@@ -56,6 +56,7 @@ function Home(props) {
   }, []);
 
   async function updateTasks (res) {
+    // console.log(res);
     if(res['auth'] == null || res['user'] == null || res['timeout'] === true) {
       alert(res['message']);
       if(res['auth'] == null)
@@ -63,16 +64,18 @@ function Home(props) {
       
       return;
     }
-    setTasks(tasks => ({
-      ...tasks,
-      'task1' : [...tasks['task1'], res['task']]
-    }))
+    setTasks(tasks => {
+      let map = {...tasks}
+      // console.log(res['task'])
+      map['task1'][res['task']['task_id']].push(res['task'])
+      return map;
+    })
   }
 
   const sendCode = (code, taskId) => {
     console.log(code, taskId)
-    // postTask(profile.loggedIn, profile.profile.email, "task1", code)
-    // .then(res => updateTasks(res))
+    postTask(profile.loggedIn, profile.profile.email, taskId, code)
+    .then(res => updateTasks(res))
   }
 
   return (

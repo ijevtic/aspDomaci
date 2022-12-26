@@ -74,11 +74,11 @@ class TASKS(Resource):
 
 
 def get_tasks(email,db):
-  row = {"task1":[], "task2":[], "task3":[]}
+  row = {"task1":{"subtask1": [], "subtask2":[], "subtask3":[]}, "task2":[], "task3":[]}
   if db.tasks is not None:
     task_cursor = db.tasks.find({"email":email})
     for task in task_cursor:
-      row[task["task_id"]].append(copy_task(task))
+      row["task1"][task["task_id"]].append(copy_task(task))
   return {"tasks":row,
           "auth":True,
           "user":True}, 200
@@ -99,7 +99,7 @@ def put_task(data, db):
 
 
 def copy_task(object):
-  arguments = ['task_code', 'id', 'test_cases_num', 'passed', 'error', 'status', 'time']
+  arguments = ['task_code', 'id', 'test_cases_num', 'passed', 'error', 'status', 'time', 'task_id']
   ret = dict()
   for arg in arguments:
     ret[arg] = object[arg]
