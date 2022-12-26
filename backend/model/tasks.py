@@ -1,4 +1,4 @@
-from flask_restful import reqparse, Resource
+from flask_restful import Resource
 from flask import request
 from model.users import get_user
 from container_manager import start_container_cycle
@@ -8,6 +8,8 @@ from constants import AUTH_FAILED_CODE, SUBMISSION_TIMEOUT
 from model.parsers import create_task_parser
 import time
 import copy
+from grade import grade
+from random import randint
 
 def time_now():
   return int(time.time())
@@ -37,8 +39,10 @@ class TASKS(Resource):
     return get_tasks(user_email, self.db)
 
   def post(self):
+
     data = create_task_parser.parse_args()
-    
+    print(data, "data")
+
     if not auth_check(data['email'], request.headers.get('Authorization')):
       return {"message": "Auth failed",
               "auth": None}, AUTH_FAILED_CODE
@@ -55,15 +59,18 @@ class TASKS(Resource):
               "user": True,
               "timeout": True}, 401
     
-    #TODO
-    # generate_code(data['task_id'], data['task_code'])
-    # start_container_cycle(ready=False)
-    # #read the container output
-    # data['task_ok'] = "ok"
-
-    data = mock_task(data['email'], data['task_id'], data['task_code'])
+    
+    # if (get_user(data['email'],self.db) is None):
+    #   return {"message": "User doesn't exist!"}, 400
+    
+    id = randint(1,10000000)
+    data['id'] = id
+    generate_code(id, data['task_code'])
+    start_container_cycle(id)
+    data = grade(data, id)
 
     return put_task(data,self.db)
+    # return {'id':id,'status':data['status'],'passed':data['passed'],'test_cases_num':data['test_cases_num'],'error':data['error']}, 200
 
 
 def get_tasks(email,db):

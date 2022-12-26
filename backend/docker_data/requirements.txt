@@ -1,4 +1,0 @@
-python-dotenv==0.21.0
-pybind11==2.10.1
-python-dev-tools==2022.5.27
-cmake==3.25.0
