@@ -28,7 +28,7 @@ class USERS(Resource):
 
 
 def get_user(email,db):
-  if not db.users:
+  if db.users is None:
     return None
   user = db.users.find_one({"email":email})
   return user

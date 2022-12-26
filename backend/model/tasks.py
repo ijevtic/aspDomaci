@@ -52,7 +52,8 @@ class TASKS(Resource):
     if(user['time'] + SUBMISSION_TIMEOUT > time_now()):
       return {"message": "Timeout has not passed!",
               "auth": True,
-              "user": True}, 401
+              "user": True,
+              "timeout": True}, 401
     
     #TODO
     # generate_code(data['task_id'], data['task_code'])
@@ -67,7 +68,7 @@ class TASKS(Resource):
 
 def get_tasks(email,db):
   row = {"task1":[], "task2":[], "task3":[]}
-  if db.tasks:
+  if db.tasks is not None:
     task_cursor = db.tasks.find({"email":email})
     for task in task_cursor:
       row[task["task_id"]].append(copy_task(task))
@@ -84,6 +85,9 @@ def put_task(data, db):
   print(data['email'], current_time)
   db.users.update_one({"email": data['email']}, { "$set": { 'time': current_time }})
   return {"message": "task succesfully submitted!",
+          "auth": True,
+          "user": True,
+          "timeout": None,
           "task": return_task}, 201
 
 
