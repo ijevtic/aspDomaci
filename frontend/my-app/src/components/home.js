@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { profileInfo } from "../recoil/atom/loggedAtom";
 import { useRecoilState } from 'recoil';
 import Logout from './logout';
+import { postTask, fetchTasks, createUser } from './apiCommunication';
 
 function Home(props) {
   const [tasks, setTasks] = useState(null);
@@ -31,57 +32,46 @@ function Home(props) {
       navigate('/login');
       return;
     }
-
-    const createUser = async (url, token) => {
-      let data = await fetch(url, {
-        'method': 'POST',
-        // 'mode': 'no-cors',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': token,
-        },
-      }).then(res => res.json()).catch(error => console.error('Error:', error));
-      if(data['auth'] === null || data['user'] == null) {
-        navigate('/login');
-        return;
-      }
-      setTasks(data.tasks);
-      console.log(data.tasks);
-    }
-
-    const fetchTasks = async (url, argument=null, parameters=null, token=null) => {
-      console.log(token)
-      if(argument != null) {
-        url = url + "/" + argument;
-      }
-      if (parameters != null) {
-        console.log(parameters)
-        for(let i = 0; i < parameters.length; i++)
-          url = url + "?" + parameters[i].name + "=" + parameters[i].value;
-      }
-      let data = await fetch(url, {
-        'method': 'GET',
-        // 'mode': 'no-cors',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': token,
-        },
-      }).then(res => res.json()).catch(error => console.error('Error:', error));
-      
+    fetchTasks(process.env.REACT_APP_SERVER_URL, 'tasks', [{'name':'email', 'value': profile.profile.email}], profile.loggedIn)
+    .then(data => {
       if(data['auth'] === null) {
         navigate('/login');
         return;
       }
       if(data['user'] === null) {
-        createUser(process.env.REACT_APP_SERVER_URL + '/users', profile.loggedIn);
+        createUser(process.env.REACT_APP_SERVER_URL + '/users', profile.loggedIn)
+        .then(data => {
+          if(data['auth'] === null || data['user'] == null) {
+            navigate('/login');
+            return;
+          }
+          setTasks(data.tasks);
+        });
         return;
       }
-
-      await setTasksCheck(data['tasks']);
+      setTasksCheck(data['tasks']);
       console.log(data['tasks'])
-    }
-    fetchTasks(process.env.REACT_APP_SERVER_URL, 'tasks', [{'name':'email', 'value': profile.profile.email}], profile.loggedIn)
+    })
   }, []);
+
+  async function updateTasks (res) {
+    if(res['auth'] == null || res['user'] == null || res['timeout'] === true) {
+      alert(res['message']);
+      if(res['auth'] == null)
+        navigate('/login');
+      
+      return;
+    }
+    setTasks(tasks => ({
+      ...tasks,
+      'task1' : [...tasks['task1'], res['task']]
+    }))
+  }
+
+  const sendCode = () => {
+    postTask(profile.loggedIn, profile.profile.email, "task1", code)
+    .then(res => updateTasks(res))
+  }
 
   const updateInputValue = (evt) => {
     const val = evt.target.value;
@@ -93,7 +83,8 @@ function Home(props) {
       <h1>Home</h1>
       <h2>data</h2>
       <textarea cols="100" rows="5"value={code} onChange={evt => updateInputValue(evt)} />
-      {tasks == null ? <div>nema taskova</div>:<div>tasks</div>}
+      {tasks == null ? <div>nema taskova</div>:<div>{JSON.stringify(tasks)}</div>}
+      <button onClick={sendCode}>Send</button>
       <Logout />
     </div>
 
