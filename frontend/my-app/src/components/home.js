@@ -83,6 +83,50 @@ function Home(props) {
     fetchTasks(process.env.REACT_APP_SERVER_URL, 'tasks', [{'name':'email', 'value': profile.profile.email}], profile.loggedIn)
   }, []);
 
+  const sendCode = async () => {
+    if(code === ""){
+      alert("Prazan kod!")
+      return;
+    }
+    await fetch(process.env.REACT_APP_SERVER_URL+'/tasks', {
+      'method': 'POST',
+      // 'mode': 'no-cors',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': profile.loggedIn,
+      },
+      body: JSON.stringify({
+        "email": profile.profile.email,
+        "task_id": "task1",
+        "task_code": code
+      })
+    }).then(res => {return {"data": res.json(), "status": res.status}})
+    .then((res) => {
+      console.log("DAAAAAAAAAAAAAAAAAA")
+      console.log(res); 
+      let data = res['data']
+      let status = res['status']
+      if(data['auth'] == null) {
+        navigate('/login');
+        return;
+      }
+      if(data['user' == null])
+        return;
+      else if(!status) {
+        alert(data['message']);
+        return;
+      }
+      setTasks(tasks => ({
+        ...tasks,
+        'task1' : [...tasks['task1'], data['task']]
+      }))
+    })
+    .catch(error => console.error('Error:', error));
+
+    
+    
+  }
+
   const updateInputValue = (evt) => {
     const val = evt.target.value;
     setCode(val);
@@ -93,7 +137,8 @@ function Home(props) {
       <h1>Home</h1>
       <h2>data</h2>
       <textarea cols="100" rows="5"value={code} onChange={evt => updateInputValue(evt)} />
-      {tasks == null ? <div>nema taskova</div>:<div>tasks</div>}
+      {tasks == null ? <div>nema taskova</div>:<div>{JSON.stringify(tasks)}</div>}
+      <button onClick={sendCode}>Send</button>
       <Logout />
     </div>
 

@@ -7,6 +7,7 @@ from model.security import auth_check
 from constants import AUTH_FAILED_CODE, SUBMISSION_TIMEOUT
 from model.parsers import create_task_parser
 import time
+import copy
 
 def time_now():
   return int(time.time())
@@ -51,7 +52,7 @@ class TASKS(Resource):
     if(user['time'] + SUBMISSION_TIMEOUT > time_now()):
       return {"message": "Timeout has not passed!",
               "auth": True,
-              "user": None}, 401
+              "user": True}, 401
     
     #TODO
     # generate_code(data['task_id'], data['task_code'])
@@ -78,10 +79,12 @@ def get_tasks(email,db):
 def put_task(data, db):
   current_time = time_now()
   data['time'] = current_time
+  return_task = copy.deepcopy(data)
   db.tasks.insert_one(data)
   print(data['email'], current_time)
   db.users.update_one({"email": data['email']}, { "$set": { 'time': current_time }})
-  return {"message": "task succesfully submitted!"}, 201
+  return {"message": "task succesfully submitted!",
+          "task": return_task}, 201
 
 
 def copy_task(object):
