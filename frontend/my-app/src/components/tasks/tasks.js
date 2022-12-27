@@ -10,7 +10,7 @@ function Tasks(props) {
   const tasksHTML = [task1, task2, task3];
   const taskTitles = tasksHTML.map(task => { return task.title; });
   const [code, setCode] = useState("");
-  const [subtaskSelected, setSubtaskSelected] = React.useState('subtask2');
+  const [subtaskSelected, setSubtaskSelected] = React.useState('subtask1');
   const handleChange = (event) => {
     setSubtaskSelected(event.target.value);
   };
@@ -51,7 +51,7 @@ function Tasks(props) {
                     <select value={subtaskSelected} onChange={handleChange}>
                       {task.subtasks.map(subtask => { return <option key={subtask.key} value={subtask.key}>{subtask.title}</option> })}
                     </select>
-                    <textarea cols="100" rows="5" value={code} onChange={evt => updateInputValue(evt)} />
+                    <textarea cols="100" rows="35" value={code} onChange={evt => updateInputValue(evt)} />
                     <button onClick={() => props.sendCode(code, subtaskSelected)}>Send</button>
                   </TabPanel>
                 </>

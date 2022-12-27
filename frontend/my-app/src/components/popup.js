@@ -4,7 +4,7 @@ import '../styles/popup.css'
 
 const MyPopup = (props) => (
   <Popup
-    trigger={<button className="button"> Open Modal </button>}
+    trigger={<button className="button">{props.text}</button>}
     modal
     nested
   >
@@ -13,26 +13,19 @@ const MyPopup = (props) => (
         <button className="close" onClick={close}>
           &times;
         </button>
-        <div className="header"> Modal Title </div>
+        <div className="header">{props.title}</div>
         <div className="content">
           {' '}
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Atque, a nostrum.
-          Dolorem, repellat quidem ut, minima sint vel eveniet quibusdam voluptates
-          delectus doloremque, explicabo tempore dicta adipisci fugit amet dignissimos?
-          <br />
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequatur sit
-          commodi beatae optio voluptatum sed eius cumque, delectus saepe repudiandae
-          explicabo nemo nam libero ad, doloribus, voluptas rem alias. Vitae?
+          <textarea className="textArea" rows={35} readOnly={true} value={props.code} />
         </div>
         <div className="actions">
           <button
             className="button"
             onClick={() => {
-              console.log('modal closed ');
               close();
             }}
           >
-            close modal
+            zatvori
           </button>
         </div>
       </div>

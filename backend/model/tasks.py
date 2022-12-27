@@ -74,7 +74,7 @@ class TASKS(Resource):
 
 
 def get_tasks(email,db):
-  row = {"task1":{"subtask1": [], "subtask2":[], "subtask3":[]}, "task2":[], "task3":[]}
+  row = {"task1":{"subtask1": [], "subtask2":[], "subtask3":[], "subtask4":[]}, "task2":[], "task3":[]}
   if db.tasks is not None:
     task_cursor = db.tasks.find({"email":email})
     for task in task_cursor:

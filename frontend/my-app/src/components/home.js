@@ -6,7 +6,6 @@ import Logout from './logout';
 import { postTask, fetchTasks, createUser } from './apiCommunication';
 import 'react-tabs/style/react-tabs.css';
 import { Tasks } from './tasks/tasks';
-import { MyPopup } from './popup';
 import '../styles/popup.css'
 
 function Home(props) {
@@ -53,7 +52,6 @@ function Home(props) {
         return;
       }
       setTasksCheck(data['tasks']);
-      console.log(data['tasks'])
     })
   }, []);
 
@@ -75,7 +73,6 @@ function Home(props) {
   }
 
   const sendCode = (code, taskId) => {
-    console.log(code, taskId)
     postTask(profile.loggedIn, profile.profile.email, taskId, code)
     .then(res => updateTasks(res))
   }
@@ -84,7 +81,6 @@ function Home(props) {
     <div className="home">
       <h1>Home</h1>
       <h2>data</h2>
-      <MyPopup></MyPopup>
       {/* {tasks == null ? <div>nema taskova</div>:<div>{JSON.stringify(tasks)}</div>} */}
       <Logout key = "logout"/>
       <Tasks sendCode={sendCode} tasks={tasks}/>

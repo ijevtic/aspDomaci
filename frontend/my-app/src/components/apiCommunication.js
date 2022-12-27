@@ -26,7 +26,6 @@ const fetchTasks = async (url, argument=null, parameters=null, token=null) => {
     url = url + "/" + argument;
   }
   if (parameters != null) {
-    console.log(parameters)
     for(let i = 0; i < parameters.length; i++)
       url = url + "?" + parameters[i].name + "=" + parameters[i].value;
   }

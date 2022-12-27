@@ -23,7 +23,6 @@ function Login(props) {
   });
 
   const onSuccess = (res) => {
-    console.log(res)
     setProfile(profile => profile = {'loggedIn':res.tokenId, 'profile': res.profileObj});
     navigate('/');
   };
