@@ -6,6 +6,8 @@ import Logout from './logout';
 import { postTask, fetchTasks, createUser } from './apiCommunication';
 import 'react-tabs/style/react-tabs.css';
 import { Tasks } from './tasks/tasks';
+import { MyPopup } from './popup';
+import '../styles/popup.css'
 
 function Home(props) {
   const [tasks, setTasks] = useState(null);
@@ -82,6 +84,7 @@ function Home(props) {
     <div className="home">
       <h1>Home</h1>
       <h2>data</h2>
+      <MyPopup></MyPopup>
       {/* {tasks == null ? <div>nema taskova</div>:<div>{JSON.stringify(tasks)}</div>} */}
       <Logout key = "logout"/>
       <Tasks sendCode={sendCode} tasks={tasks}/>

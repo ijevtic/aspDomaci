@@ -11,7 +11,10 @@ function createRow(data) {
   return {
     'time': data['time'],
     'test_cases_num': data['test_cases_num'],
-    'passed': data['passed']
+    'passed': data['passed'],
+    'status': data['status'],
+    'error': data['error'],
+    'task_code': data['task_code']
   }
 }
 
@@ -24,8 +27,11 @@ export default function BasicTable(props) {
         <TableHead>
           <TableRow>
             <TableCell>time</TableCell>
+            <TableCell align="right">status</TableCell>
             <TableCell align="right">test cases num</TableCell>
             <TableCell align="right">passed</TableCell>
+            <TableCell align="right">error</TableCell>
+            <TableCell align="right">task code</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -38,8 +44,11 @@ export default function BasicTable(props) {
               <TableCell component="th" scope="row">
                 {row.time}
               </TableCell>
+              <TableCell style={{'color': 'red'}} align="right"><b>{row.status}</b></TableCell>
               <TableCell align="right">{row.test_cases_num}</TableCell>
               <TableCell align="right">{row.passed}</TableCell>
+              <TableCell align="right">{row.error}</TableCell>
+              <TableCell align="right">{row.task_code}</TableCell>
             </TableRow>
             )
         })}
