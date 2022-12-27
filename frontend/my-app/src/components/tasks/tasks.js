@@ -42,7 +42,12 @@ const Flex = styled.div`
     padding-top:10px;
     padding-bottom:10px;
 `;
-
+const MiniFlex = styled.div`
+    text-align: center;
+    display:flex;
+    flex-direction:row;
+    justify-content:center;
+`;
 
 const CustomButton = styled2(Button)(() => ({
   textTransform: 'none',
@@ -61,19 +66,23 @@ function Tasks(props) {
   const [code, setCode] = useState("");
   const [subtaskSelected, setSubtaskSelected] = useState('subtask1');
   const [points, setPoints] = useState({ 'task1': 0, 'task2': 0, 'task3': 0 });
+  const [checkMap, setCheckMap] = useState({ 'task1': { 'subtask1': 0, 'subtask2': 0, 'subtask3': 0, 'subtask4': 0 } });
 
   useEffect(() => {
     if (props.tasks == null)
       return;
     let p = { 'task1': 0, 'task2': 0, 'task3': 0 };
+    let pCheckMap = { 'task1': { 'subtask1': 0, 'subtask2': 0, 'subtask3': 0, 'subtask4': 0 } };
     for (const [taskId, subtasksMap] of Object.entries(props.tasks)) {
       if (!tasksMap[taskId].checker) continue;
       for (const [subtaskId, submissions] of Object.entries(subtasksMap)) {
         let s = submissions.reduce((acc, current) => { return (current.status == "OK" ? 1 : acc) }, 0);
+        pCheckMap[taskId][subtaskId] = s;
         p[taskId] += s;
       }
     }
     setPoints(p);
+    setCheckMap(pCheckMap);
 
   }, [props.tasks]);
 
@@ -85,10 +94,6 @@ function Tasks(props) {
   const updateInputValue = (evt) => {
     const val = evt.target.value;
     setCode(val);
-  }
-  function handleScroll() {
-    let scrollTop = this.refs.content.scrollTop;
-    console.log(scrollTop);
   }
 
   return (
@@ -105,7 +110,18 @@ function Tasks(props) {
                 <>
                   <p>Poeni: {points[task.key]}</p>
                   <TabList>
-                    {task.subtasks.map(subtask => { return <Tab key={subtask.title}>{subtask.title}</Tab> })}
+                    {task.subtasks.map(subtask => {
+                      return (
+
+                        <Tab key={subtask.title}>
+                          <MiniFlex>
+                            {subtask.title}
+                            {checkMap[task.key] !== undefined && checkMap[task.key][subtask.key] == 1 ? 
+                            <div style={{ "color": "green", "font-size": "17px" }}>✔</div> : <></>}
+                          </MiniFlex>
+                        </Tab>
+                      )
+                    })}
                     <Tab key="sendCode">Testiraj kod</Tab>
                   </TabList>
 
