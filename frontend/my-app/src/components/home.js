@@ -4,11 +4,14 @@ import { profileInfo } from "../recoil/atom/loggedAtom";
 import { useRecoilState } from 'recoil';
 import Logout from './logout';
 import { postTask, fetchTasks, createUser } from './apiCommunication';
+import 'react-tabs/style/react-tabs.css';
+import { Tasks } from './tasks/tasks';
+import { MyPopup } from './popup';
+import '../styles/popup.css'
 
 function Home(props) {
   const [tasks, setTasks] = useState(null);
   const [profile, setProfile] = useRecoilState(profileInfo);
-  const [code, setCode] = useState("");
   let sent = false;
 
   const navigate = useNavigate();
@@ -55,6 +58,7 @@ function Home(props) {
   }, []);
 
   async function updateTasks (res) {
+    // console.log(res);
     if(res['auth'] == null || res['user'] == null || res['timeout'] === true) {
       alert(res['message']);
       if(res['auth'] == null)
@@ -62,32 +66,29 @@ function Home(props) {
       
       return;
     }
-    setTasks(tasks => ({
-      ...tasks,
-      'task1' : [...tasks['task1'], res['task']]
-    }))
+    setTasks(tasks => {
+      let map = {...tasks}
+      // console.log(res['task'])
+      map['task1'][res['task']['task_id']].push(res['task'])
+      return map;
+    })
   }
 
-  const sendCode = () => {
-    postTask(profile.loggedIn, profile.profile.email, "task1", code)
+  const sendCode = (code, taskId) => {
+    console.log(code, taskId)
+    postTask(profile.loggedIn, profile.profile.email, taskId, code)
     .then(res => updateTasks(res))
-  }
-
-  const updateInputValue = (evt) => {
-    const val = evt.target.value;
-    setCode(val);
   }
 
   return (
     <div className="home">
       <h1>Home</h1>
       <h2>data</h2>
-      <textarea cols="100" rows="5"value={code} onChange={evt => updateInputValue(evt)} />
-      {tasks == null ? <div>nema taskova</div>:<div>{JSON.stringify(tasks)}</div>}
-      <button onClick={sendCode}>Send</button>
-      <Logout />
+      <MyPopup></MyPopup>
+      {/* {tasks == null ? <div>nema taskova</div>:<div>{JSON.stringify(tasks)}</div>} */}
+      <Logout key = "logout"/>
+      <Tasks sendCode={sendCode} tasks={tasks}/>
     </div>
-
   )
 }
 
