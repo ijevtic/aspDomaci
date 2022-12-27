@@ -10,10 +10,9 @@ import {
 } from 'recoil';
 
 const Content = styled.div`
-    text-align: center;
-    color: palevioletred;
-    border: 1px solid black;
-    width: 100%;
+    // text-align: center;
+    // color: palevioletred;
+    width: 90%;
     margin: auto;
 `;
 

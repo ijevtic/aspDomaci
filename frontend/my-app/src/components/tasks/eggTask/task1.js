@@ -6,8 +6,10 @@ import { subtask4 } from "./subtask4";
 const subtasks = [subtask1,subtask2,subtask3,subtask4];
 
 const task1 = {
-    "title": 'prvi zad',
-    "subtasks": subtasks
+    "title": 'Jaja',
+    "subtasks": subtasks,
+    "checker": true,
+    "key": "task1"
 }
 export {
     task1

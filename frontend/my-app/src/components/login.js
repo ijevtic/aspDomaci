@@ -33,7 +33,6 @@ function Login(props) {
 
   return (
     <div>
-      <h2>React Google Login</h2>
       <br />
       <br />
       <GoogleLogin

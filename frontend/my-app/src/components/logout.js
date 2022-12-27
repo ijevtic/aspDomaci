@@ -15,7 +15,7 @@ function Logout(props) {
   };
 
   return (
-    <GoogleLogout clientId={clientId} buttonText="Log out" onLogoutSuccess={logOut} />
+    profile.loggedIn !== 'false'? <GoogleLogout clientId={clientId} buttonText="Log out" onLogoutSuccess={logOut} /> :<></>
   );
 }
 export default Logout;

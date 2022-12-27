@@ -3,7 +3,9 @@ const body = (
 )
 const task3 = {
     "title": 'treci zad',
-    "body": body
+    "body": body,
+    "checker": false,
+    "key": "task3"
 }
 export {
     task3

@@ -2,15 +2,30 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { profileInfo } from "../recoil/atom/loggedAtom";
 import { useRecoilState } from 'recoil';
-import Logout from './logout';
 import { postTask, fetchTasks, createUser } from './apiCommunication';
 import 'react-tabs/style/react-tabs.css';
 import { Tasks } from './tasks/tasks';
 import '../styles/popup.css'
+import '../styles/loading.css'
+import styled from 'styled-components';
+import { COLORS } from '../styles/colors';
+
+
+const HomeStyled = styled.div`
+    text-align: center;
+    color: ${props => props.color};
+    // width: 90%;
+    // margin: auto;
+`;
+
+HomeStyled.defaultProps = {
+  color: COLORS.blue2
+}
 
 function Home(props) {
   const [tasks, setTasks] = useState(null);
   const [profile, setProfile] = useRecoilState(profileInfo);
+  const [loading, setLoading] = useState(false);
   let sent = false;
 
   const navigate = useNavigate();
@@ -25,17 +40,19 @@ function Home(props) {
   }
 
   useEffect(() => {
+    if(profile.loggedIn == 'false') {
+      navigate('/login');
+      return;
+    }
     if(sent)
       return;
     
     sent = true;
     
-    if(profile.loggedIn == 'false') {
-      navigate('/login');
-      return;
-    }
+    setLoading(true);
     fetchTasks(process.env.REACT_APP_SERVER_URL, 'tasks', [{'name':'email', 'value': profile.profile.email}], profile.loggedIn)
     .then(data => {
+      setLoading(false);
       if(data['auth'] === null) {
         navigate('/login');
         return;
@@ -73,18 +90,19 @@ function Home(props) {
   }
 
   const sendCode = (code, taskId) => {
+    setLoading(true);
     postTask(profile.loggedIn, profile.profile.email, taskId, code)
-    .then(res => updateTasks(res))
+    .then(res => {
+      updateTasks(res)
+      setLoading(false)
+    })
   }
 
   return (
-    <div className="home">
-      <h1>Home</h1>
-      <h2>data</h2>
-      {/* {tasks == null ? <div>nema taskova</div>:<div>{JSON.stringify(tasks)}</div>} */}
-      <Logout key = "logout"/>
+    <HomeStyled>
+      {loading?<div className="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div> :<></>}
       <Tasks sendCode={sendCode} tasks={tasks}/>
-    </div>
+    </HomeStyled>
   )
 }
 

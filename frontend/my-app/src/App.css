@@ -1,10 +1,25 @@
-.App {
+/* .App {
   text-align: center;
+} */
+html,
+body {
+  height: 100%;
+}
+body {
+  background: #eee;
+  /* width: 100%; */
+  /* display: flex;
+  justify-content: center;
+  align-items: center; */
 }
 
 .App-logo {
   height: 40vmin;
   pointer-events: none;
+}
+
+.logout {
+  float:right;
 }
 
 @media (prefers-reduced-motion: no-preference) {

@@ -7,6 +7,17 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import * as React from 'react';
 import { MyPopup } from './popup';
+import styled from 'styled-components';
+
+const Scroll = styled.div`
+  flex: 1;
+  max-height:770px;
+  // background: #aaa;
+  overflow-y: scroll;
+  border:0.5px solid #b0b0b0
+`;
+
+// max-height: 900px;
 
 function createRow(data) {
   return {
@@ -19,6 +30,14 @@ function createRow(data) {
   }
 }
 
+function getColorForStatus(status) {
+  if(status == "OK") return 'green';
+  if(status == "WA") return '#e6de00';
+  if(status == "TLE") return 'red';
+  if(status == "CE") return 'red';
+  return 'black';
+}
+
 function formatTime(unix) {
   let date = new Date(unix * 1000);
   return date.toLocaleDateString("en-GB") + " " + date.toLocaleTimeString("it-IT");
@@ -27,16 +46,19 @@ function formatTime(unix) {
 export default function BasicTable(props) {
   return (
     props.data == null ? <></> :
+    props.data.length == 0 ?
+    <>Nema poslatih rešenja</> :
+    <Scroll>
       <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+        <Table sx={{  }} aria-label="simple table">
           <TableHead>
             <TableRow>
-              <TableCell>time</TableCell>
-              <TableCell align="right">status</TableCell>
-              <TableCell align="right">test cases num</TableCell>
-              <TableCell align="right">passed</TableCell>
-              <TableCell align="right">error</TableCell>
-              <TableCell align="right">task code</TableCell>
+              <TableCell><b>Vreme</b></TableCell>
+              <TableCell align="right"><b>Status</b></TableCell>
+              <TableCell align="center"><b>Broj test primera</b></TableCell>
+              <TableCell align="center"><b>Tačni test primeri</b></TableCell>
+              <TableCell align="center"><b>Greška</b></TableCell>
+              <TableCell align="center"><b>Source kod</b></TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -51,16 +73,17 @@ export default function BasicTable(props) {
                   <TableCell component="th" scope="row">
                     {formatTime(row.time)}
                   </TableCell>
-                  <TableCell style={{ 'color': 'red' }} align="right"><b>{row.status}</b></TableCell>
-                  <TableCell align="right">{row.test_cases_num}</TableCell>
-                  <TableCell align="right">{row.passed}</TableCell>
-                  <TableCell align="right">{row.error !== "" ? <MyPopup code={row.error} text={"Prikaži grešku"} title={"Greška"}/> : <>Nema greške</>}</TableCell>
-                  <TableCell align="right"><MyPopup code={row.task_code} text={"Prikaži kod"} title={"Kod"}/></TableCell>
+                  <TableCell style={{ 'color': getColorForStatus(row.status) }} align="right"><b>{row.status}</b></TableCell>
+                  <TableCell align="center">{row.test_cases_num}</TableCell>
+                  <TableCell align="center">{row.passed}</TableCell>
+                  <TableCell align="center">{row.error !== "" ? <MyPopup code={row.error} text={"Prikaži grešku"} title={"Greška"}/> : <>Nema greške</>}</TableCell>
+                  <TableCell align="center"><MyPopup code={row.task_code} text={"Prikaži kod"} title={"Kod"}/></TableCell>
                 </TableRow>
               )
             })}
           </TableBody>
         </Table>
       </TableContainer>
+      </Scroll>
   );
 }
