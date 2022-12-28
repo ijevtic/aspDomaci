@@ -1,10 +1,10 @@
 import os
 
-def grade(data, id):
+def grade(data, id, task_id):
 
 
     path = os.getenv("ROOT_PATH")
-    path = os.path.join(path,f"docker_data/test_cases.txt")  
+    path = os.path.join(path,f"docker_data/test_cases_{task_id}.txt")  
     num_of_cases = 0
     with open(path, 'r') as file:
         num_of_cases = int((file.read()).split()[0])

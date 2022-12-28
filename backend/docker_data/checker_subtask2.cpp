@@ -11,7 +11,7 @@ int main(int argc, char **argv)
 
     int caseNum = strtol(argv[2],nullptr,10);
     ifstream cases;
-    cases.open("test_cases.txt");
+    cases.open("test_cases_subtask2.txt");
 
 
     int n = 100;//rand()%1000;
@@ -37,7 +37,7 @@ int main(int argc, char **argv)
     strcat(s3,s4);
     ofstream logfile;
     logfile.open(s3,ios_base::app);
-
+    logfile<<caseNum<<endl;
     logfile<<n<<" "<<x<<" "<<sol<<endl;
 
     char c;
@@ -63,13 +63,13 @@ int main(int argc, char **argv)
         }
         else if(c == '?')
         {
-            /*if(miss==2)
+            if(miss==2)
             {
                 outfile<<0<<endl;
                 logfile<<"no more"<<endl;
                 outfile.close();
                 return 0;
-            }*/
+            }
             if(t>=x)
             {
                 cout<<1<<endl;
