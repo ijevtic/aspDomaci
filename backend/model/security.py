@@ -1,8 +1,5 @@
-from google.oauth2 import id_token
-from google.auth.transport import requests
-from dotenv import load_dotenv
 from constants import AUTH
-import os
+import requests
 
 def auth_check(email, token):
   
@@ -20,10 +17,12 @@ def check_token(token):
   if token is None:
     return None
 
-  load_dotenv()
-  try:
-      idinfo = id_token.verify_oauth2_token(token, requests.Request(), os.getenv('GOOGLE_AUTH_CLIENT_ID'))
-      print(idinfo)
-      return idinfo['email']
-  except ValueError:
-      return None
+  URL='https://oauth2.googleapis.com/tokeninfo?id_token=' + token
+
+  r = requests.get(url = URL)
+  data = r.json()
+
+  if 'error' in data:
+    return None
+  else:
+    return data['email']

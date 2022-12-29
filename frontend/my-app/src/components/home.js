@@ -54,6 +54,7 @@ function Home(props) {
     .then(data => {
       setLoading(false);
       if(data['auth'] === null) {
+        setProfile({'loggedIn':'false', 'profile': null});
         navigate('/login');
         return;
       }
@@ -61,6 +62,7 @@ function Home(props) {
         createUser(process.env.REACT_APP_SERVER_URL + '/users', profile.loggedIn)
         .then(data => {
           if(data['auth'] === null || data['user'] == null) {
+            setProfile({'loggedIn':'false', 'profile': null});
             navigate('/login');
             return;
           }
@@ -76,8 +78,10 @@ function Home(props) {
     // console.log(res);
     if(res['auth'] == null || res['user'] == null || res['timeout'] === true) {
       alert(res['message']);
-      if(res['auth'] == null)
+      if(res['auth'] == null) {
+        setProfile({'loggedIn':'false', 'profile': null});
         navigate('/login');
+      }
       
       return;
     }
