@@ -1,7 +1,7 @@
 from flask_restful import reqparse, Resource
 from flask import request
 from model.security import auth_check, check_token
-from constants import AUTH_FAILED_CODE
+from constants import AUTH_FAILED_CODE, empty_tasks
 
 class USERS(Resource):
 
