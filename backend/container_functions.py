@@ -8,7 +8,7 @@ def run_container(cont_name, image_name, id, task_id):
     cmd = ['docker', 'run', '--name', cont_name, '-v', f'{root}/docker_output:/opt/app/data/output', 
     '-v', f'{root}/task_data/task_data{id}:/opt/app/data/task_data',
     "--network", "none", image_name, '/opt/app/data/run_all.sh', str(id), task_id]
-    result = subprocess.Popen( cmd, stdout=subprocess.PIPE )
+    result = subprocess.run( cmd, stdout=subprocess.PIPE )
     # result = subprocess.call(cmd)
     print("RUN CMD ", cmd)
 

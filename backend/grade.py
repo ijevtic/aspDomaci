@@ -8,7 +8,7 @@ def grade(data, id, task_id):
     num_of_cases = 0
     with open(path, 'r') as file:
         num_of_cases = int((file.read()).split()[0])
-    print(num_of_cases)
+    print("CASES: ", num_of_cases)
     data['test_cases_num'] = num_of_cases
     data['passed'] = 0
 
@@ -29,12 +29,18 @@ def grade(data, id, task_id):
     path = os.path.join(path,f"docker_output/output{id}.txt")
     
     checker_output = ""
-    with open(path, 'r') as file:
-        checker_output = file.read()
+    try:
+        with open(path, 'r') as file:
+            checker_output = file.read()
+    except:
+        print('output file excpet')
+        data['status'] = 'TLE'
+        data['passed'] = 0
+        return data
     checker_output = checker_output.split("\n")
     checker_output = [int(c) for c in checker_output if c.isdigit()]
     suma = sum(checker_output)
-    print("checker output:", suma)
+    print("PASSED:", suma)
 
     data['passed'] = suma
     if suma == num_of_cases:
