@@ -41,8 +41,4 @@ def put_user(email,db):
   return {"message": "User succesfully created!",
           "auth": True,
           "user": True,
-          "tasks": {
-            "task1" : [],
-            "task2" : [],
-            "task3" : []
-          }}, 201
+          "tasks": empty_tasks}, 201
