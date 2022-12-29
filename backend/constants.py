@@ -1,3 +1,11 @@
 AUTH_FAILED_CODE=403
 SUBMISSION_TIMEOUT=20
 AUTH=True
+empty_tasks={
+            "task1":{
+              "subtask1": [], 
+              "subtask2":[], 
+              "subtask3":[], 
+              "subtask4":[]}, 
+            "task2":[], 
+            "task3":[]}
