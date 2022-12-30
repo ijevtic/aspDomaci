@@ -23,3 +23,9 @@ Create Docker image
 ```
 docker build -t test .
 ```
+
+
+Backup of Database 
+```
+backup.py script creates a folder 'backup' in which the snapshots of the database will be saved in .json format.
+```
