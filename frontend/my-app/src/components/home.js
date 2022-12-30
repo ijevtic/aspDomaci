@@ -95,7 +95,7 @@ function Home(props) {
 
   const sendCode = (code, taskId) => {
     setLoading(true);
-    postTask(profile.loggedIn, profile.profile.email, taskId, code)
+    postTask(profile.loggedIn, profile.profile.email, taskId, code, setLoading)
     .then(res => {
       updateTasks(res)
       setLoading(false)

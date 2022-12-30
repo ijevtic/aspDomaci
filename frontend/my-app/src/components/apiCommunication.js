@@ -1,6 +1,13 @@
-async function postTask (token, email, task_id, task_code) {
+import {maximumCodeSize} from "../constants"
+async function postTask (token, email, task_id, task_code, setLoading) {
   if(task_code === ""){
+    setLoading(false);
     alert("Prazan kod!")
+    return null;
+  }
+  if(task_code.length > maximumCodeSize) {
+    setLoading(false);
+    alert("Predugačak kod!")
     return null;
   }
   let res = await fetch(process.env.REACT_APP_SERVER_URL+'/tasks', {

@@ -3,6 +3,7 @@ SUBMISSION_TIMEOUT=20
 AUTH=True
 backup_path="backup/"
 backup_seconds=7200
+maximum_code_size=64000
 empty_tasks={
             "task1":{
               "subtask1": [], 

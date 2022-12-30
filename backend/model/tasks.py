@@ -4,7 +4,7 @@ from model.users import get_user
 from container_manager import start_container_cycle
 from generate_code import generate_code
 from model.security import auth_check
-from constants import AUTH_FAILED_CODE, SUBMISSION_TIMEOUT, empty_tasks
+from constants import AUTH_FAILED_CODE, SUBMISSION_TIMEOUT, empty_tasks, maximum_code_size
 from model.parsers import create_task_parser
 import time
 import copy
@@ -55,6 +55,12 @@ class TASKS(Resource):
     
     if(user['time'] + SUBMISSION_TIMEOUT > time_now()):
       return {"message": "Timeout has not passed!",
+              "auth": True,
+              "user": True,
+              "timeout": True}, 401
+    
+    if(len(data['task_code']) > maximum_code_size):
+      return {"message": "Souce code too large!",
               "auth": True,
               "user": True,
               "timeout": True}, 401

@@ -14,11 +14,6 @@ const Scroll = styled.div`
   overflow-y: scroll;
 `;
 
-const StyledSwitch = styled2(Switch)(() => ({
-    // textTransform: 'none',
-    // color: COLORS.black,
-}));
-
 function ScrollCode(props) {
 
     const [checked, setChecked] = useState(true);
