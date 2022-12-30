@@ -12,6 +12,7 @@ import { COLORS } from '../../styles/colors';
 import SendIcon from '@mui/icons-material/Send';
 import Select from '@mui/material/Select'
 import MenuItem from "@mui/material/MenuItem";
+import { AdditionalInfo } from "./additionalInformation";
 
 // import { COLORS } from '../styles/colors';
 
@@ -99,8 +100,14 @@ function Tasks(props) {
   return (
     <Tabs>
       <TabList>
+        <Tab key="AdditionalInfoTitle">{"Dodatne informacije"}</Tab>
         {taskTitles.map(title => { return <Tab key={title}>{title}</Tab> })}
       </TabList>
+      <TabPanel key={"additionalInfoTabPanel"}>
+        <Tabs forceRenderTabPanel key={"additionalInfoTab"}>
+          <AdditionalInfo />
+        </Tabs>
+      </TabPanel>
       {tasksHTML.map(task => {
         return (
           <TabPanel key={task.title + "1"}>
@@ -116,8 +123,8 @@ function Tasks(props) {
                         <Tab key={subtask.title}>
                           <MiniFlex>
                             {subtask.title}
-                            {checkMap[task.key] !== undefined && checkMap[task.key][subtask.key] == 1 ? 
-                            <div style={{ "color": "green", "font-size": "17px" }}>✔</div> : <></>}
+                            {checkMap[task.key] !== undefined && checkMap[task.key][subtask.key] == 1 ?
+                              <div style={{ "color": "green", "font-size": "17px" }}>✔</div> : <></>}
                           </MiniFlex>
                         </Tab>
                       )
