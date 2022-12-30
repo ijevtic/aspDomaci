@@ -4,10 +4,8 @@ import os
 from dotenv import load_dotenv
 from flask_cors import CORS
 from pymongo import MongoClient
-from apscheduler.schedulers.background import BackgroundScheduler
 from model.users import USERS
 from model.tasks import TASKS
-
 
 load_dotenv()
 
@@ -33,10 +31,13 @@ if __name__ == '__main__':
   # compile()
   # serve(app, host="0.0.0.0", port=5000)
 
-  scheduler = BackgroundScheduler()
+  # scheduler = BackgroundScheduler()
+  from waitress import serve
   # scheduler.add_job(lambda: update_pending(), trigger="interval", seconds=25)
   # scheduler.start()
+  serve(app, host="0.0.0.0", port=5000)
+  # subprocess.run(start_backup, args=[db])
 
-  app.run(debug=True,host='0.0.0.0',port=int(os.environ.get('PORT', 5000)))
+  # app.run(debug=True,host='0.0.0.0',port=int(os.environ.get('PORT', 5000)))
 
   # app.run(use_reloader=False)

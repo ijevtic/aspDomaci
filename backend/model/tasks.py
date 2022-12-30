@@ -4,7 +4,7 @@ from model.users import get_user
 from container_manager import start_container_cycle
 from generate_code import generate_code
 from model.security import auth_check
-from constants import AUTH_FAILED_CODE, SUBMISSION_TIMEOUT
+from constants import AUTH_FAILED_CODE, SUBMISSION_TIMEOUT, empty_tasks
 from model.parsers import create_task_parser
 import time
 import copy
@@ -75,7 +75,7 @@ class TASKS(Resource):
 
 
 def get_tasks(email,db):
-  row = {"task1":{"subtask1": [], "subtask2":[], "subtask3":[], "subtask4":[]}, "task2":[], "task3":[]}
+  row = copy.deepcopy(empty_tasks)
   if db.tasks is not None:
     task_cursor = db.tasks.find({"email":email})
     for task in task_cursor:
