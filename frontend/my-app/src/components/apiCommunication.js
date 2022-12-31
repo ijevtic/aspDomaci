@@ -1,4 +1,9 @@
-import {maximumCodeSize} from "../constants"
+import {maximumCodeSize, requestAwait} from "../constants"
+
+function delay(time) {
+  return new Promise(resolve => setTimeout(resolve, time));
+}
+
 async function postTask (token, email, task_id, task_code, setLoading) {
   if(task_code === ""){
     setLoading(false);
@@ -36,6 +41,7 @@ const fetchTasks = async (url, argument=null, parameters=null, token=null) => {
     for(let i = 0; i < parameters.length; i++)
       url = url + "?" + parameters[i].name + "=" + parameters[i].value;
   }
+  await delay(requestAwait);
   let data = await fetch(url, {
     'method': 'GET',
     // 'mode': 'no-cors',
