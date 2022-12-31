@@ -20,6 +20,7 @@ class TASKS(Resource):
     self.db = db
 
   def get(self):
+    print(request.remote_addr)
     user_email = request.args.get('email')
     if user_email is None:
       return {"message": "wrong email!",

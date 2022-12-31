@@ -15,6 +15,7 @@ async function postTask (token, email, task_id, task_code, setLoading) {
     alert("Predugačak kod!")
     return null;
   }
+  await delay(requestAwait);
   let res = await fetch(process.env.REACT_APP_SERVER_URL+'/tasks', {
     'method': 'POST',
     // 'mode': 'no-cors',
