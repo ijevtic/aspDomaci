@@ -24,4 +24,11 @@ if test -f ./code$1; then
             timeout 1s ./checker_$2 < fifo $1 $i | timeout 1s ./code$1 > fifo
         done
     fi
+    if [ $2 = 'subtask4' ] 
+    then
+        for i in {0..3}
+        do
+            timeout 3s  ./code$1 < fifo | timeout 3s ./checker_$2 > fifo $1 $i
+        done
+    fi
 fi
