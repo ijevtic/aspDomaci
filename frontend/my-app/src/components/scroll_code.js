@@ -25,7 +25,7 @@ function ScrollCode(props) {
         <>
             <FormGroup>
                 <FormControlLabel control={<Switch
-                    defaultChecked color="default"
+                    color="default"
                     checked={checked}
                     onChange={handleChange}
                     inputProps={{ 'aria-label': 'controlled' }}

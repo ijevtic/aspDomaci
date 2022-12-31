@@ -1,8 +1,8 @@
 const body = (
-    <p key = "p task3">ovo je tekst task3</p>
+    <p key = "p task3">Uskoro...</p>
 )
 const task3 = {
-    "title": 'treci zad',
+    "title": 'Uskoro',
     "body": body,
     "checker": false,
     "key": "task3"

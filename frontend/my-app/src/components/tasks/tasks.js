@@ -124,7 +124,7 @@ function Tasks(props) {
                           <MiniFlex>
                             {subtask.title}
                             {checkMap[task.key] !== undefined && checkMap[task.key][subtask.key] == 1 ?
-                              <div style={{ "color": "green", "font-size": "17px" }}>✔</div> : <></>}
+                              <div style={{ "color": "green", "fontSize": "17px" }}>✔</div> : <></>}
                           </MiniFlex>
                         </Tab>
                       )
@@ -139,7 +139,7 @@ function Tasks(props) {
                           {props.tasks == null ? <></> :
                             <SubtaskStyled>
                               <SubtaskTextStyled>
-                                <p>{subtask.body}</p>
+                                {subtask.body}
                               </SubtaskTextStyled>
                               <SubtaskSubmissionsStyled>
                                 <BasicTable data={props.tasks['task1'][subtask.key]} />
