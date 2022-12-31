@@ -5,23 +5,23 @@ if test -f ./code$1; then
     mkfifo fifo
     if [ $2 = 'subtask1' ] 
     then
-        for i in {0..2}
+        for i in {0..5}
         do
-            timeout 1s ./checker_$2 < fifo $1 $i | timeout 1s ./code$1 > fifo
+            timeout 2s ./checker_$2 < fifo $1 $i | timeout 2s ./code$1 > fifo
         done
     fi
     if [ $2 = 'subtask2' ] 
     then
-        for i in {0..1}
+        for i in {0..5}
         do
-            timeout 1s ./checker_$2 < fifo $1 $i | timeout 1s ./code$1 > fifo
+            timeout 2s ./checker_$2 < fifo $1 $i | timeout 2s ./code$1 > fifo
         done
     fi
     if [ $2 = 'subtask3' ] 
     then
-        for i in {0..1}
+        for i in {0..11}
         do
-            timeout 1s ./checker_$2 < fifo $1 $i | timeout 1s ./code$1 > fifo
+            timeout 2s ./checker_$2 < fifo $1 $i | timeout 2s ./code$1 > fifo
         done
     fi
     if [ $2 = 'subtask4' ] 
