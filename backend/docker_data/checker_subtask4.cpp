@@ -3,26 +3,36 @@
 
 using namespace std;
 
+bool veceJednako(string a, string b)
+{
+    if(a.size()>b.size())
+        return true;
+    if(a.size()<b.size())
+        return false;
+    for(int i=0;i<a.size();i++)
+        if(a[i]!=b[i])
+            return a[i]>b[i];
+    return true;
+}
+
 int main(int argc, char **argv)
 {
 	ios::sync_with_stdio(false);
 	cin.tie(0);
 
-
     int caseNum = strtol(argv[2],nullptr,10);
     ifstream cases;
-    cases.open("test_cases_subtask3.txt");
+    cases.open("test_cases_subtask4.txt");
 
-
-    int n = 100;//rand()%1000;
-    int x = rand()%n+1;
-    int sol = 10;
-
+    string x;
     int tmp;
+    int sol;
     cases>>tmp;
     for(int i=0;i<=caseNum;i++)
-        cases>>n>>x>>sol;
-
+    {
+        cases>>x;
+        cases>>sol;
+    }
     char s[50] = "output/output";
     char s2[10] = ".txt";
     strcat(s,argv[1]);
@@ -37,24 +47,23 @@ int main(int argc, char **argv)
     strcat(s3,s4);
     ofstream logfile;
     logfile.open(s3,ios_base::app);
-    logfile<<caseNum<<endl;
-    logfile<<n<<" "<<x<<" "<<sol<<endl;
+
+    logfile<<x<<" "<<sol<<endl;
 
     char c;
-    int t;
+    string t;
     int cnt = 0;
     int miss = 0;
-    cout<<n<<endl;
     while(1)
     {
         cin>>c;
         cin>>t;
         cnt++;
-        //logfile<<c<<" "<<t<<endl;
+        // logfile<<c<<" "<<t<<endl;
         //cout<<c<<" "<<t<<endl;
         if(c=='!')
         {
-            logfile<<"user "<<cnt-1<<"  optimal "<<sol<<endl;
+            logfile<<"user "<<cnt-1<<" "<<sol<<endl;
             if(t==x)
                 outfile<<(cnt-1<=sol?1:0)<<endl;
             else
@@ -64,23 +73,16 @@ int main(int argc, char **argv)
         }
         else if(c == '?')
         {
-            if(miss==2)
-            {
-                outfile<<0<<endl;
-                //logfile<<"no more"<<endl;
-                outfile.close();
-                return 0;
-            }
-            if(t>=x)
+            if(veceJednako(t,x))
             {
                 cout<<1<<endl;
-                //logfile<<1<<endl;
+                // logfile<<1<<endl;
                 miss++;
             }
             else
             {
                 cout<<0<<endl;
-                //logfile<<0<<endl;
+                // logfile<<0<<endl;
             }
         }
     }

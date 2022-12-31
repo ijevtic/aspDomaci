@@ -35,9 +35,12 @@ if __name__ == '__main__':
   from waitress import serve
   # scheduler.add_job(lambda: update_pending(), trigger="interval", seconds=25)
   # scheduler.start()
-  serve(app, host="0.0.0.0", port=5000)
-  # subprocess.run(start_backup, args=[db])
-
-  # app.run(debug=True,host='0.0.0.0',port=int(os.environ.get('PORT', 5000)))
+  prod = os.getenv("PRODUCTION","False") == 'True'
+  if prod is True:
+    serve(app, host="0.0.0.0", port=5000)
+  else:  
+    app.run(debug=True,host='0.0.0.0',port=int(os.environ.get('PORT', 5000)))
 
   # app.run(use_reloader=False)
+
+  # subprocess.run(start_backup, args=[db])

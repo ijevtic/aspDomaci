@@ -50,10 +50,11 @@ int main(int argc, char **argv)
         cin>>c;
         cin>>t;
         cnt++;
-        logfile<<c<<" "<<t<<endl;
+        //logfile<<c<<" "<<t<<endl;
         //cout<<c<<" "<<t<<endl;
         if(c=='!')
         {
+            logfile<<"user "<<cnt-1<<"  optimal "<<sol<<endl;
             if(t==x)
                 outfile<<(cnt-1<=sol?1:0)<<endl;
             else
@@ -73,13 +74,13 @@ int main(int argc, char **argv)
             if(t>=x)
             {
                 cout<<1<<endl;
-                logfile<<1<<endl;
+                //logfile<<1<<endl;
                 miss++;
             }
             else
             {
                 cout<<0<<endl;
-                logfile<<0<<endl;
+                //logfile<<0<<endl;
             }
         }
     }
