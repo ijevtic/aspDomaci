@@ -27,7 +27,9 @@ function AdditionalInfo() {
         <LiStyled>Ne postoji limit u broju pokušaja po zadatku, ali je timeout za slanje 60s.</LiStyled>
         <LiStyled>Od svih poslatih re&scaron;enja gleda se ono koje je donelo najvi&scaron;e poena.</LiStyled>
         <LiStyled>Ukupna vrednost svih zadataka je 10 poena(4-3-3).</LiStyled>
-        <LiStyled><strong>Prepisivanje i deljenje kodova je strogo zabranjeno!</strong>&nbsp; Svi studenti koji budu prepisivali ili delili svoj kod drugima će dobiti 0 poena na domaćem zadatku.</LiStyled>
+        <LiStyled>Token posle logovanje ističe za ~1h. Kada istekne token, moguće je da će vas sistem preusmeriti
+          da se ponovo prijavite, ili će vas automatski prijaviti ponovo.</LiStyled>
+        <LiStyled><strong>Prepisivanje i deljenje kodova je zabranjeno.</strong>&nbsp; Svi studenti koji budu prepisivali ili delili svoj kod drugima će dobiti 0 poena na domaćem zadatku.</LiStyled>
         <LiStyled>Sva eventualna pitanja možete slati na <u>mtrajkovic@raf.rs</u> i&nbsp;<u>ijevtic@raf.rs</u>.</LiStyled>
         <LiStyled>Veličina izvornog koda u prvom i trećem zadatku je ograničena na 64KB.</LiStyled>
         <LiStyled>U prvom zadatku su tekst drugog i trećeg podzadatka isti - jedina razlika je maksimalan broj 

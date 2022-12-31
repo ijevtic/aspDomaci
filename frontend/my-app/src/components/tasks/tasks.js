@@ -13,7 +13,7 @@ import SendIcon from '@mui/icons-material/Send';
 import Select from '@mui/material/Select'
 import MenuItem from "@mui/material/MenuItem";
 import { AdditionalInfo } from "./additionalInformation";
-
+import AsyncLocalStorage from '@createnextapp/async-local-storage'
 // import { COLORS } from '../styles/colors';
 
 const SubtaskStyled = styled.div`
@@ -64,14 +64,35 @@ function Tasks(props) {
   const tasksHTML = [task1, task2, task3];
   const tasksMap = { 'task1': task1, 'task2': task2, 'task3': task3 }
   const taskTitles = tasksHTML.map(task => { return task.title; });
+  // const [code, setCode] = useState(localStorage.getItem('task_code') !== null ? localStorage.getItem('task_code') : "");
   const [code, setCode] = useState("");
   const [subtaskSelected, setSubtaskSelected] = useState('subtask1');
   const [points, setPoints] = useState({ 'task1': 0, 'task2': 0, 'task3': 0 });
   const [checkMap, setCheckMap] = useState({ 'task1': { 'subtask1': 0, 'subtask2': 0, 'subtask3': 0, 'subtask4': 0 } });
 
+  const readData = async () => {
+    let data = "";
+    try {
+      data = await AsyncLocalStorage.getItem('@task_data')
+    } catch(e) {
+      // error
+    }
+    return data
+  }
+  const storeData = async (code) => {
+    try {
+      await AsyncLocalStorage.setItem('@task_data', code)
+    } catch(e) {
+    }
+  }
+  
+  
+
   useEffect(() => {
     if (props.tasks == null)
       return;
+    readData()
+    .then(code => setCode(code))
     let p = { 'task1': 0, 'task2': 0, 'task3': 0 };
     let pCheckMap = { 'task1': { 'subtask1': 0, 'subtask2': 0, 'subtask3': 0, 'subtask4': 0 } };
     for (const [taskId, subtasksMap] of Object.entries(props.tasks)) {
@@ -95,6 +116,8 @@ function Tasks(props) {
   const updateInputValue = (evt) => {
     const val = evt.target.value;
     setCode(val);
+    storeData(val)
+    // localStorage.setItem('task_code', val);
   }
 
   return (
