@@ -28,6 +28,7 @@ const SubtaskStyled = styled.div`
 
 const SubtaskTextStyled = styled.div`
     width: 60%;
+    padding-right: 10px;
 `;
 
 const SubtaskSubmissionsStyled = styled.div`

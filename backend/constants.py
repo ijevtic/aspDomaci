@@ -1,5 +1,5 @@
 AUTH_FAILED_CODE=403
-SUBMISSION_TIMEOUT=20
+SUBMISSION_TIMEOUT=60
 AUTH=True
 backup_path="backup/"
 backup_seconds=7200
