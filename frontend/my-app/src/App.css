@@ -43,6 +43,20 @@ body {
   color: #61dafb;
 }
 
+.my-pre {
+  text-align: left;
+  color: black;
+  font-size: 14px;
+}
+
+.my-code {
+  background-color: #F8F8F8;
+  margin: 0 4px;
+  padding: 2px 4px;
+  color:  #00538e;
+  border: 1px solid #CCC;
+} 
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);

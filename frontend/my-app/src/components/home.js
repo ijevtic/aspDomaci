@@ -11,6 +11,10 @@ import styled from 'styled-components';
 import { COLORS } from '../styles/colors';
 
 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+
 const HomeStyled = styled.div`
     text-align: center;
     color: ${props => props.color};
@@ -93,10 +97,20 @@ function Home(props) {
     })
   }
 
+  const showToast = (status) => {
+    if(status=='OK')
+      toast.success(status)
+    else
+      toast.error(status)
+  }
+
   const sendCode = (code, taskId) => {
+    // (() => (toast("test"))) ()
+
     setLoading(true);
     postTask(profile.loggedIn, profile.profile.email, taskId, code, setLoading)
     .then(res => {
+      showToast(res['status'])
       updateTasks(res)
       setLoading(false)
     })
@@ -104,6 +118,7 @@ function Home(props) {
 
   return (
     <HomeStyled>
+      <ToastContainer hideProgressBar theme="colored" />
       {loading?<div className="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div> :<></>}
       <Tasks sendCode={sendCode} tasks={tasks}/>
     </HomeStyled>

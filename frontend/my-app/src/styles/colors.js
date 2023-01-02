@@ -6,5 +6,6 @@ export const COLORS = {
     bluetest: '#348ceb',
     blue3: '#1e7898',
     blue4: '#1a6985',
+    blue5: '#00538e',
     // your colors
   }

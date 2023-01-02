@@ -100,6 +100,7 @@ def put_task(data, db):
   print(data['email'], current_time)
   db.users.update_one({"email": data['email']}, { "$set": { 'time': current_time }})
   return {"message": "task succesfully submitted!",
+          "status": data['status'],
           "auth": True,
           "user": True,
           "timeout": None,
