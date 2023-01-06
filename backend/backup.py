@@ -7,7 +7,7 @@ from constants import backup_path, backup_seconds
 from datetime import datetime
 
 def db_backup(db):
-  if not db or not db.tasks:
+  if db is None or db.tasks is None:
     return
   task_cursor = db.tasks.find({})
   tasks = []
