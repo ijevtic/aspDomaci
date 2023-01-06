@@ -9,7 +9,8 @@ const task1 = {
     "title": 'Jaja',
     "subtasks": subtasks,
     "checker": true,
-    "key": "task1"
+    "key": "task1",
+    "submitOptions": subtasks.map(subtask => {return {'key' : subtask.key, 'title' : subtask.title}}),
 }
 export {
     task1

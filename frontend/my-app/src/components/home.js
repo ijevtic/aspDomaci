@@ -92,7 +92,10 @@ function Home(props) {
     setTasks(tasks => {
       let map = {...tasks}
       // console.log(res['task'])
-      map['task1'][res['task']['task_id']].push(res['task'])
+      if(res['task']['task_id'].includes('subtask'))
+        map['task1'][res['task']['task_id']].push(res['task'])
+      else
+        map['task3'].push(res['task'])
       return map;
     })
   }

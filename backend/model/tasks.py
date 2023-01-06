@@ -73,9 +73,10 @@ class TASKS(Resource):
     id = randint(1,10000000)
     data['id'] = id
     print("id ", id)
-    generate_code(id, data['task_code'])
-    start_container_cycle(id, data['task_id'])
-    data = grade(data, id, data['task_id'])
+    # generate_code(id, data['task_code'])
+    # start_container_cycle(id, data['task_id'])
+    # data = grade(data, id, data['task_id'])
+    data = mock_task(data['email'], data['task_id'],data['task_code'])
 
     return put_task(data,self.db)
     # return {'id':id,'status':data['status'],'passed':data['passed'],'test_cases_num':data['test_cases_num'],'error':data['error']}, 200
@@ -86,7 +87,10 @@ def get_tasks(email,db):
   if db.tasks is not None:
     task_cursor = db.tasks.find({"email":email})
     for task in task_cursor:
-      row["task1"][task["task_id"]].append(copy_task(task))
+      if 'subtask' in task["task_id"]:
+        row["task1"][task["task_id"]].append(copy_task(task))
+      else:
+        row[task["task_id"]].append(copy_task(task))
   return {"tasks":row,
           "auth":True,
           "user":True}, 200
@@ -123,5 +127,5 @@ def mock_task(email, task_id, task_code):
     "test_cases_num": 4,
     "passed": 3,
     "error": "no error",
-    "status": "OK",
+    "status": "WA",
   }

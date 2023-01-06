@@ -4,8 +4,9 @@ const body = (
 const task3 = {
     "title": 'Uskoro',
     "body": body,
-    "checker": false,
-    "key": "task3"
+    "checker": true,
+    "key": "task3",
+    "submitOptions": [{'key': 'task3', 'title': "Treći zadatak"}],
 }
 export {
     task3
