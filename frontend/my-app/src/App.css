@@ -44,6 +44,7 @@ body {
 }
 
 .my-pre {
+  white-space: pre-wrap;
   text-align: left;
   color: black;
   font-size: 14px;

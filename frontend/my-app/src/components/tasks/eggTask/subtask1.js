@@ -28,14 +28,14 @@ const body = (
         <Objasnjenje>
             Ovaj zadatak je interaktivan, odnosno ulaz u vaš program će zavisiti od njegovog ispisa. <br />
             Prva linija ulaza je uvek ista i to je N, broj spratova u datom test primeru. <br />
-            Nakon toga se očekuje da vaš program ispiše komandu oblika <code class="my-code">? x</code>, gde je x broj sprata sa koga se baca jaje.<br />
+            Nakon toga se očekuje da vaš program ispiše komandu oblika <code className="my-code">? x</code>, gde je x broj sprata sa koga se baca jaje.<br />
             Za svaku komandu ovog tipa dobićete odgovor na ulazu koji može biti 0 (jaje nije puklo) ili 1 (jaje je puklo).<br />
-            Kada ste sigurni da ste odredili sprat X, ispisujete komandu oblika <code class="my-code">! x</code>, gde je x broj sprata X iz postavke zadatka.<br />
+            Kada ste sigurni da ste odredili sprat X, ispisujete komandu oblika <code className="my-code">! x</code>, gde je x broj sprata X iz postavke zadatka.<br />
             <br />
             Primer koda za brute force algoritam:
-            <pre class="my-pre">
+            <code className="my-pre">
             {code_example}
-            </pre>
+            </code>
         </Objasnjenje>
         
     </>
