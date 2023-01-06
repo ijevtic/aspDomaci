@@ -13,7 +13,7 @@ const body = (
             i ako se koriste dozvoljeni potezi.
         </Napomena>
         <Napomena>Napomena: Ovo je <b>teža verzija</b> zadatka (Broj bacanja ispod koga se rešenje smatra tačnim je manji).</Napomena>
-        <Napomena>Napomena: Ispi komandi je identičan kao u prethodnim podzadacima</Napomena>
+        <Napomena>Napomena: Ispis komandi je identičan kao u prethodnim podzadacima</Napomena>
 
         {/* <Objasnjenje>
             Ovaj zadatak je interaktivan, odnosno ulaz u vaš program će zavisiti od njegovog ispisa. <br />
