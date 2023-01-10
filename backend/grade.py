@@ -2,15 +2,7 @@ import os
 
 def grade(data, id, task_id):
 
-    path = os.getenv("ROOT_PATH")
-    path = os.path.join(path,f"docker_output/output{id}/compile_log{id}.txt")
-    compile_output = ""
-    with open(path, 'r') as file:
-        compile_output = file.read()
-    data['error'] = compile_output
-    if compile_output != "":
-        data['status'] = "CE"
-        return data
+
 
     if 'subtask' in task_id:
         return grade_interactive(data, id, task_id)
@@ -19,6 +11,19 @@ def grade(data, id, task_id):
 
 
 def grade_regular(data, id, task_id):
+    
+    data['passed'] = 0
+    data['test_cases_num'] = 10
+
+    path = os.getenv("ROOT_PATH")
+    path = os.path.join(path,f"docker_output/output{id}/compile_log{id}.txt")
+    compile_output = ""
+    with open(path, 'r') as file:
+        compile_output = file.read()
+    data['error'] = compile_output
+    if compile_output != "":
+        data['status'] = "CE"
+        return data;
     passed  = 0
     path = os.getenv("ROOT_PATH")
     path2 = os.path.join(path,f"docker_output/output{id}")
@@ -40,7 +45,6 @@ def grade_regular(data, id, task_id):
             passed = passed + 1
 
     print("CASES: ", 10)
-    data['test_cases_num'] = 10
     data['passed'] = passed
     if passed == 10:
         data['status'] = 'OK'
@@ -59,6 +63,15 @@ def grade_interactive(data, id, task_id):
     data['test_cases_num'] = num_of_cases
     data['passed'] = 0
 
+    path = os.getenv("ROOT_PATH")
+    path = os.path.join(path,f"docker_output/output{id}/compile_log{id}.txt")
+    compile_output = ""
+    with open(path, 'r') as file:
+        compile_output = file.read()
+    data['error'] = compile_output
+    if compile_output != "":
+        data['status'] = "CE"
+        return data
     
     path = os.getenv("ROOT_PATH")
     path = os.path.join(path,f"docker_output/output{id}.txt")
