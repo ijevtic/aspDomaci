@@ -31,4 +31,11 @@ if test -f ./code$1; then
             timeout 3s  ./code$1 < fifo | timeout 3s ./checker_$2 > fifo $1 $i
         done
     fi
+    if [ $2 = 'task3' ]
+    then
+        for i in {1..10}
+        do
+            timeout 2s  ./code$1 > output/output$1/$i.out < test_cases_task3/$i.in
+        done
+    fi
 fi

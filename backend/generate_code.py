@@ -7,3 +7,5 @@ def generate_code(id, task_code):
   os.mkdir(dir_path)
   with open(os.path.join(dir_path,f'code{id}.cpp'), 'w') as f:
     f.write(task_code)
+
+  os.mkdir(os.path.join(os.getenv('ROOT_PATH'),f'docker_output/output{id}'))

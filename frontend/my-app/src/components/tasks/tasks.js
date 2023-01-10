@@ -57,7 +57,7 @@ function Tasks(props) {
     for (const [taskId, subtasksMap] of Object.entries(props.tasks)) {
       if (!tasksMap[taskId].checker) continue;
       if (taskId == 'task3') {
-        let s = subtasksMap.reduce((acc, current) => { return (current.status == "OK" ? 1 : acc) }, 0);
+        let s = subtasksMap.reduce((acc, current) => { return (current.status == "OK" ? 3 : acc) }, 0);
         pCheckMap[taskId] = s;
         p[taskId] += s;
       }
@@ -109,7 +109,7 @@ function Tasks(props) {
                       <Tab key={"zadatak 3 tekst"}>
                         <MiniFlex>
                           {"Zadatak"}
-                          {checkMap[task.key] !== undefined && checkMap[task.key] == 1 ?
+                          {checkMap[task.key] !== undefined && checkMap[task.key] >= 1 ?
                             <div style={{ "color": "green", "fontSize": "17px" }}>✔</div> : <></>}
                         </MiniFlex>
                       </Tab>
