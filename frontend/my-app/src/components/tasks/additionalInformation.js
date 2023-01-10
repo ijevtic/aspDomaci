@@ -21,7 +21,8 @@ function AdditionalInfo() {
       {/* <p>ide gas</p> */}
       <TitleStyled>Dodatne Informacije</TitleStyled>
       <ul styles={{ "list-style-type": "circle" }}>
-        <LiStyled>Rok za predaju domaćeg zadatka je <b> petak 13.1.2023. 23:59.</b></LiStyled>
+        <LiStyled>Rok za predaju <b>prvog i drugog</b> domaćeg zadatka je <b> petak 13.1.2023. 23:59.</b></LiStyled>
+        <LiStyled>Rok za predaju <b>trećeg</b> domaćeg zadatka je <b> ponedeljak 16.1.2023. 23:59.</b></LiStyled>
         <LiStyled>Za prvi i treći zadatak je omogućeno automatsko proveravanje re&scaron;enja zadataka, dok je za drugi zadatak potrebno da re&scaron;enje po&scaron;aljete na <u>mtrajkovic@raf.rs</u> i <u>ijevtic@raf.rs</u>.</LiStyled>
         <LiStyled>Prvi i treći zadatak potrebno je iskucati u programskom jeziku <b>C++</b>, drugi zadatak je moguće raditi u jeziku po izboru.</LiStyled>
         <LiStyled>Kada po&scaron;aljete zadatak na automatsku proveru, ishod ćete dobiti na stranici zadatka, sa desne strane (tu se nalaze sva poslata re&scaron;enja).</LiStyled>
