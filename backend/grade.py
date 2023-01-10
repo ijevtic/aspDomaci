@@ -37,7 +37,7 @@ def grade_regular(data, id, task_id):
 
         if sol2 == '':
             data['status'] = 'TLE'
-            data[passed] = passed
+            data['passed'] = passed
             return data
         
         print(sol, sol2)
