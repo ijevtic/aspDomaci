@@ -9,7 +9,8 @@ const body = (
             Paja može da se popne (ili siđe) sa vrha jedne zgrade na neku drugu ako su one susedne u matrici (gore, dole, levo, desno) i ako je razlika njihovih visina manja ili jednaka od dužine Pajinih merdevina. <br></br>
             Pomozite Paji da odredi koliko najmanje treba da budu dugačke njegove merdevine, da bi on mogao da obiđe barem polovinu zgrada.
             Ukoliko je broj zgrada neparan, polovina se zaokružuje na gore.<br />
-            Dozvoljeno je da u obilasku više puta stane na istu zgradu, ali se ona računa samo jednom u ukupnom broju zgrada koje je obišao. <br></br><br />
+            Dozvoljeno je da u obilasku više puta stane na istu zgradu, ali se ona računa samo jednom u ukupnom broju zgrada koje je obišao.<br></br>
+            Paja može da počne kretanje sa bilo koje zgrade. <br></br><br />
             U prvoj liniji ulaza unosi se prorodan broj N. &nbsp;&nbsp;&nbsp; (<b>N {'<='} 500</b>) <br></br>
             Zatim se u narednih N redova unosi po N nenegativnih brojeva odvojenih razmakom koji predstavljaju visine zgrada. &nbsp;&nbsp;&nbsp;(<b>visina {'<='} 10 000 000</b>) <br></br><br></br>
             Potrebno je ispisati jedan broj, najmanju dužinu merdevina pomoću kojih može da obiđe barem polovinu zgrada.
