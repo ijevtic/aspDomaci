@@ -41,8 +41,17 @@ class TASKS(Resource):
 
   def post(self):
 
+
     data = create_task_parser.parse_args()
     print(data, "data")
+    
+    deadline = 1473650800
+    if data['task_id'] == 'task3':
+      deadline = 1673910000
+    
+    if time_now() >= deadline:
+      return {"message":"Deadline exceeded"}, 401
+
 
     if not auth_check(data['email'], request.headers.get('Authorization')):
       return {"message": "Auth failed",
@@ -53,7 +62,7 @@ class TASKS(Resource):
       return {"message": "User doesn't exist!",
               "auth": True,
               "user": None}, 401
-    
+
     if(user['time'] + SUBMISSION_TIMEOUT > time_now()):
       return {"message": "Timeout has not passed!",
               "auth": True,
