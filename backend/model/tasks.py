@@ -44,8 +44,8 @@ class TASKS(Resource):
 
     data = create_task_parser.parse_args()
     print(data, "data")
-    
-    deadline = 1473650800
+
+    deadline = 1673650800
     if data['task_id'] == 'task3':
       deadline = 1673910000
     
